@@ -1,0 +1,17 @@
+#MyEclipse Hibernate Properties
+#Mon Dec 04 13:25:15 CST 2017
+genVersionTag=false
+sessionFactoryName=ces.util.HibernateSessionFactory
+genAnnotations=false
+configFile=/ShopServerForAndroid/src/applicationContext.xml
+reStrategyClass=
+sessionFactoryId=sessionFactory
+profile=
+detectM2M=false
+genBasicCompId=false
+keyGenerator=
+createConfigFile=true
+basePersistenceClass=
+detectO2O=false
+useJavaTypes=true
+reSettingsFile=
