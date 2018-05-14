@@ -56,4 +56,11 @@ public class UserDao {
 		.uniqueResult();	
 		return u!=null?true:false;
 	}
+	
+	public User validateNickname(User user){
+		return (User)sessionFactory.getCurrentSession()
+		.createQuery("from User where nickname=? ")	
+		.setString(0, user.getNickname())
+		.uniqueResult();	
+	}
 }

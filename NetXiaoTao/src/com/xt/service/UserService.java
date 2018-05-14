@@ -27,6 +27,10 @@ public class UserService {
 		}
 	}
 
+	public User validateNickname(User user) {
+		return userDao.validateNickname(user);
+	}
+
 	public boolean modifyPass(User user) {
 		return userDao.modifyPass(user) > 0 ? true : false;
 	}

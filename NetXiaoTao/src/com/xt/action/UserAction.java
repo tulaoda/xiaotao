@@ -36,6 +36,17 @@ public class UserAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	@Action(value = "validateNickname", results = { @Result(name = "success", type = "json") })
+	public String validateNickname() {
+		loginedUser = userService.validateNickname(user);
+		if (loginedUser == null) {
+			code = "1";
+		} else {
+			code = "0";
+		}
+		return SUCCESS;
+	}
+
 	@Action(value = "register", results = { @Result(name = "success", type = "json") })
 	public String register() {
 		String userid = java.util.UUID.randomUUID().toString().replace("-", "");
