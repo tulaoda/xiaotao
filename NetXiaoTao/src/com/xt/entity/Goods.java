@@ -1,11 +1,20 @@
 package com.xt.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity  
 @Table(name = "t_goods")
@@ -39,6 +48,17 @@ public class Goods {
   @Column(name = "postage", length = 1)
   private Long postage;
 
+  @OneToMany(targetEntity=GoodsImg.class,cascade=CascadeType.ALL)  
+  @Fetch(FetchMode.JOIN)  
+  //updatable=false很关键，如果没有它，在级联删除的时候就会报错(反转的问题)  
+  @JoinColumn(name="goodsid",updatable=false)  
+  private Set<GoodsImg> goodsImg = new HashSet<GoodsImg>();  
+  public Set<GoodsImg> getGoodsImg() {  
+  return goodsImg;  
+  }  
+  public void setSets(Set<GoodsImg> goodsImg) {  
+  this.goodsImg = goodsImg;  
+  }  
   public Goods() {
 	super();
 }
