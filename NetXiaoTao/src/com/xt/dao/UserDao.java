@@ -51,8 +51,8 @@ public class UserDao {
 	
 	public boolean exits(User user){
 		User u=(User) sessionFactory.getCurrentSession()
-		.createQuery("from User where phone=? ")	
-		.setString(0, user.getPhone())
+		.createQuery("from User where nickname=? ")	
+		.setString(0, user.getNickname())
 		.uniqueResult();	
 		return u!=null?true:false;
 	}
