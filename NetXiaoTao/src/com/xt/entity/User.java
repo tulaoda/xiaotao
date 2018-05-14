@@ -22,6 +22,9 @@ public class User {
 	@Column(name = "passwd", length = 20)
 	private String passwd;
 
+	@Column(name = "school", length = 45)
+	private String school;
+
 	@Column(name = "photo", length = 200)
 	private String photo;
 
@@ -107,6 +110,14 @@ public class User {
 
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
 	}
 
 	public String getPhoto() {
@@ -204,4 +215,5 @@ public class User {
 	public void setUserstate(String userstate) {
 		this.userstate = userstate;
 	}
+
 }
