@@ -62,20 +62,15 @@ public class User {
 		super();
 	}
 
-	public User(String nickname, String passwd) {
-		super();
-		this.nickname = nickname;
-		this.passwd = passwd;
-	}
-
-	public User(String userid, String nickname, String passwd, String photo,
-			Long credits, Long auth, Long bond, Timestamp bondtime,
-			float balance, String receiver, String phone, String area,
-			String address, String postalcode, String userstate) {
+	public User(String userid, String nickname, String passwd, String school,
+			String photo, Long credits, Long auth, Long bond,
+			Timestamp bondtime, float balance, String receiver, String phone,
+			String area, String address, String postalcode, String userstate) {
 		super();
 		this.userid = userid;
 		this.nickname = nickname;
 		this.passwd = passwd;
+		this.school = school;
 		this.photo = photo;
 		this.credits = credits;
 		this.auth = auth;
