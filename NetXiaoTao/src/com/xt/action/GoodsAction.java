@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
@@ -21,10 +22,8 @@ import com.xt.service.GoodsItemService;
 @Controller
 public class GoodsAction extends BaseAction{
 	
-	private File file;
-	private String fileFileName;
-	private String fileContentType;
-
+	private List<File> file;
+	private List<String> fileFileName;
 	private String code;
 	private List<Goods> data;
 	private int pageSize;
@@ -72,13 +71,10 @@ public class GoodsAction extends BaseAction{
 		return SUCCESS;
 	}
 	
-	/*@Action(value="addNewGoodsItem",results={
+	@Action(value="addNewGoodsItem",results={
 			@Result(name="success",type="json")
 	})
 	public String addNewGoodsItem(){
-		System.out.println("==========file============="+file==null);
-		System.out.println("============fileFileName==============="+fileFileName);
-		System.out.println("=================fileContentType==============="+fileContentType);
 		boolean flag=goodsItemService.addNewGoodsItem(goodsItem,file,fileFileName);
 		if(flag){
 			code="1";
@@ -89,7 +85,15 @@ public class GoodsAction extends BaseAction{
 		}
 		return SUCCESS;
 	}
-*/
+
+	/*@Action(value = "addFileAction",params={"savePath","/upload"},
+			interceptorRefs={@InterceptorRef(value="fileUpload",params={"allowedTypes","image/pjpeg, image/gif,image/x-png","maximumSize","1024000000"}),
+			@InterceptorRef("defaultStack")},results={
+			@Result(name="success",type="json") 
+	})
+	public String addFile() {
+		goodsItemService.addNewGoodsItem(goodsItem,file,fileFileName);
+	}*/
 	public String getCode() {
 		return code;
 	}
@@ -103,31 +107,24 @@ public class GoodsAction extends BaseAction{
 		this.goodsItem = goodsItem;
 	}
 
-	public void setFile(File file) {
-		this.file = file;
-	}
-
-	public void setFileFileName(String fileFileName) {
-		this.fileFileName = fileFileName;
-	}
-
-	public void setFileContentType(String fileContentType) {
-		this.fileContentType = fileContentType;
-	}
 	public GoodsItemService getGoodsItemService() {
 		return goodsItemService;
 	}
 	public void setGoodsItemService(GoodsItemService goodsItemService) {
 		this.goodsItemService = goodsItemService;
 	}
-	public File getFile() {
+	
+	public List<File> getFile() {
 		return file;
 	}
-	public String getFileFileName() {
+	public void setFile(List<File> file) {
+		this.file = file;
+	}
+	public List<String> getFileFileName() {
 		return fileFileName;
 	}
-	public String getFileContentType() {
-		return fileContentType;
+	public void setFileFileName(List<String> fileFileName) {
+		this.fileFileName = fileFileName;
 	}
 	public Goods getGoodsItem() {
 		return goodsItem;

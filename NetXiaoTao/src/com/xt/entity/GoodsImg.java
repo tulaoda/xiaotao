@@ -18,7 +18,7 @@ public class GoodsImg {
   @Column(name = "image", length = 100)
   private String image;
   
-  @Column(name = "goodsid", length = 11)
+  @Column(name = "goodSid", length = 11)
   private Long goodsid;
 
   public GoodsImg() {

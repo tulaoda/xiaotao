@@ -2,6 +2,7 @@ package com.xt.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.xt.dao.GoodsItemDao;
 import com.xt.entity.Goods;
+import com.xt.entity.GoodsImg;
 
 
 
@@ -40,18 +42,35 @@ public class GoodsItemService {
 		goodsItemDao.removeGoodsItem(goods);
 		return true;
 	}
-	/*
-	public boolean addNewGoodsItem(Goods goods,File file,String fileFileName){
+	public boolean addNewGoodsItem(Goods goods,List<File> file,List<String> fileFileName){
 		try {
-			FileUtils.copyFile(file, new File("D://thunderDownload",fileFileName));
+			System.out.println(file.size());
+			System.out.println(fileFileName.size());
+			int i=0;
+			for(File f:file){
+			FileUtils.copyFile(f, new File("D://thunderDownload",fileFileName.get(i)));
+			i++;
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+		List <GoodsImg>GoodsImgs=new ArrayList<GoodsImg>();
+		for(String fn:fileFileName){
+			GoodsImg goodsImg=new GoodsImg();
+			goodsImg.setImage("http://192.168.0.16:8080/thunderDownload/"+fn);
+			goodsImg.setGoodsid(goodsItemDao.findMaxIdGoodsItem().getId()+1);
+			GoodsImgs.add(goodsImg);
+			/*if(goodsItemDao.findMaxIdGoodsItem()==null){
+				goods.setId((long) 1);
+			}
+			goods.setId(goodsItemDao.findMaxIdGoodsItem().getId()+1);*/
+		    goods.setGoodsImg(GoodsImgs);
 		}
-		goods.setImg("http://192.168.43.129:8080/thunderDownload/"+fileFileName);
+		}
 		goodsItemDao.addNewGoodsItem(goods);
 		return true;
 	}
-	*/
+	
 	public Goods findMaxIdGoodsItem(){
 		return goodsItemDao.findMaxIdGoodsItem();
 	}
