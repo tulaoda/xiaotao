@@ -14,3 +14,5 @@ eg：
     *address: @string 地址
     *postalcode: @int 邮编
 }
+
+文件上传路径：/home/wwwroot/default/web/SourceXiaoTao
