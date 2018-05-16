@@ -58,6 +58,19 @@ public class GoodsAction extends BaseAction{
 		}
 		return SUCCESS;
 	}
+	@Action(value="findGoodsItemById",results={
+			@Result(name="success",type="json")
+	})
+	
+	public String findGoodsItemById(){
+		goodsItem=goodsItemService.findGoodsItemById(goodsItem.getId());
+		if(goodsItem!=null){
+			code="1";
+		}else{
+			code="0";
+		}
+		return SUCCESS;
+	}
 	@Action(value="removeGoodsItem",results={
 			@Result(name="success",type="json")
 	})

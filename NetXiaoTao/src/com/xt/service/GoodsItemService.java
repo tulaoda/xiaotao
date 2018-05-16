@@ -37,7 +37,9 @@ public class GoodsItemService {
 	public List<Goods> findGoodsItemByL_classForPage(Long l_class ,int pageSize,int page){
 		return goodsItemDao.findGoodsItemByL_classForPage(l_class,pageSize,page);
 	}
-	
+	public Goods findGoodsItemById(Long id){
+		return goodsItemDao.findGoodsItemById(id);
+	}
 	public boolean removeGoodsItem(Goods goods){
 		goodsItemDao.removeGoodsItem(goods);
 		return true;

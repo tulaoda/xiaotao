@@ -41,7 +41,7 @@ public class User {
 	private java.sql.Timestamp bondtime;
 
 	@Column(name = "balance", length = 10)
-	private float balance;
+	private Double balance;
 
 	@Column(name = "receiver", length = 10)
 	private String receiver;
@@ -67,7 +67,7 @@ public class User {
 
 	public User(String userid, String nickname, String passwd, String school,
 			String photo, Long credits, Long auth, Long bond,
-			Timestamp bondtime, float balance, String receiver, String phone,
+			Timestamp bondtime, Double balance, String receiver, String phone,
 			String area, String address, String postalcode, String userstate) {
 		super();
 		this.userid = userid;
@@ -160,11 +160,11 @@ public class User {
 		this.bondtime = bondtime;
 	}
 
-	public float getBalance() {
+	public Double getBalance() {
 		return balance;
 	}
 
-	public void setBalance(float balance) {
+	public void setBalance(Double balance) {
 		this.balance = balance;
 	}
 

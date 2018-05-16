@@ -26,6 +26,12 @@ public class GoodsItemDao {
 		String hql="from Goods where l_class=?";
 		return sessionFactory.getCurrentSession().createQuery(hql).setLong(0, l_class).list();
 	}
+	
+	public Goods findGoodsItemById(Long id){
+		String hql="from Goods where id=?";
+		return (Goods) sessionFactory.getCurrentSession().createQuery(hql).setLong(0, id).uniqueResult();
+	}
+	
 	public void removeGoodsItem(Goods goods){
 		sessionFactory.getCurrentSession().delete(goods);
 	}

@@ -30,14 +30,14 @@ public class PayHistory {
   private java.sql.Timestamp cratetime;
   
   @Column(name = "charge", length = 0)
-  private float charge;
+  private Double charge;
 
   public PayHistory() {
 	super();
 }
 
 public PayHistory(Long id, String userid, Long type, String content,
-		Timestamp cratetime, float charge) {
+		Timestamp cratetime, Double charge) {
 	super();
 	this.id = id;
 	this.userid = userid;
@@ -87,11 +87,11 @@ public Long getId() {
     this.cratetime = cratetime;
   }
 
-  public float getCharge() {
+  public Double getCharge() {
     return charge;
   }
 
-  public void setCharge(float charge) {
+  public void setCharge(Double charge) {
     this.charge = charge;
   }
 }
