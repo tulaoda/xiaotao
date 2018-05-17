@@ -32,8 +32,8 @@ public class Goods {
   @Column(name = "content", length = 100)
   private String content;
   
-  @Column(name = "desc", length = 100)
-  private String desc;
+  @Column(name = "description", length = 100)
+  private String description;
   
   @Column(name = "price", length = 0)
   private Double price;
@@ -68,13 +68,13 @@ public class Goods {
 	super();
 }
 
-public Goods(Long id, Long l_class, String content,String desc, Double price,
+public Goods(Long id, Long l_class, String content,String description, Double price,
 		String userid, Long state, Long proxy, Long stock, Long postage) {
 	super();
 	this.id = id;
 	this.l_class = l_class;
 	this.content = content;
-	this.desc = desc;
+	this.description = description;
 	this.price = price;
 	this.userid = userid;
 	this.state = state;
@@ -107,11 +107,11 @@ public Long getId() {
     this.content = content;
   }
 
-  public String getDesc() {
-	return desc;
+  public String getDescription() {
+	return description;
 }
-public void setDesc(String desc) {
-	this.desc = desc;
+public void setDescription(String description) {
+	this.description = description;
 }
 public Double getPrice() {
     return price;
