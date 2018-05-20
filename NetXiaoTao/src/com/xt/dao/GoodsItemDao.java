@@ -41,7 +41,6 @@ public class GoodsItemDao {
 		return	sessionFactory.getCurrentSession().createQuery(hql)
 		.setLong(0, l_class)
 		.setFirstResult((page-1)*pageSize)
-		.setMaxResults(pageSize)
 		.setMaxResults(pageSize).list(); 
 		
 	}
@@ -49,7 +48,6 @@ public class GoodsItemDao {
 		String hql="from Goods";
 		return	sessionFactory.getCurrentSession().createQuery(hql)
 		.setFirstResult((page-1)*pageSize)
-		.setMaxResults(pageSize)
 		.setMaxResults(pageSize).list(); 
 		
 	}

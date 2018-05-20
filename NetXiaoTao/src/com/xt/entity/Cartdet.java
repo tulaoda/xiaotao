@@ -19,7 +19,7 @@ public class Cartdet {
   private Long goodsid;
   
   @Column(name = "cartid", length = 45)
-  private String cartid;
+  private Long cartid;
   
   @Column(name = "num", length = 11)
   private Long num;
@@ -28,7 +28,7 @@ public class Cartdet {
 	super();
 }
 
-public Cartdet(Long id, Long goodsid, String cartid, Long num) {
+public Cartdet(Long id, Long goodsid,Long cartid, Long num) {
 	super();
 	this.id = id;
 	this.goodsid = goodsid;
@@ -52,11 +52,11 @@ public Long getId() {
     this.goodsid = goodsid;
   }
 
-  public String getCartid() {
+  public Long getCartid() {
     return cartid;
   }
 
-  public void setCartid(String cartid) {
+  public void setCartid(Long cartid) {
     this.cartid = cartid;
   }
 

@@ -1,11 +1,19 @@
 package com.xt.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity  
 @Table(name = "t_shopcart")
@@ -18,27 +26,20 @@ public class Shopcart {
   @Column(name = "userid", length = 45)
   private String userid;
   
-  @Column(name = "cartid", length = 45)
-  private String cartid;
-
+  @ManyToOne(cascade=CascadeType.ALL)
+  @JoinColumn(name="cartid",unique=true)
+  
+  private Cartdet c;
+  
   public Shopcart() {
 	super();
 }
 
-public Shopcart(Long id, String userid, String cartid) {
+public Shopcart( Long id,String userid) {
 	super();
 	this.id = id;
 	this.userid = userid;
-	this.cartid = cartid;
 }
-
-public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
 
   public String getUserid() {
     return userid;
@@ -48,11 +49,20 @@ public Long getId() {
     this.userid = userid;
   }
 
-  public String getCartid() {
-    return cartid;
+  public Long getId() {
+    return id;
   }
 
-  public void setCartid(String cartid) {
-    this.cartid = cartid;
+  public void setId(Long id) {
+    this.id = id;
   }
+
+public Cartdet getC() {
+	return c;
+}
+
+public void setC(Cartdet c) {
+	this.c = c;
+}
+  
 }

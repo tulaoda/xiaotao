@@ -44,8 +44,8 @@ public class UserService {
 	public boolean modifyName(User user) {
 		return userDao.modifyName(user) > 0 ? true : false;
 	}
-	public List<Object> findUserAndGoods(){
-		return userDao.findUserAndGoods();
+	public List<Object> findUserAndGoods(int pageSize,int page){
+		return userDao.findUserAndGoods(pageSize,page);
 	}
 	
 }

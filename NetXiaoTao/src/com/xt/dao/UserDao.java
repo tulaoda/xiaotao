@@ -67,9 +67,11 @@ public class UserDao {
 		.uniqueResult();	
 	}
 	
-	public List<Object> findUserAndGoods(){
+	public List<Object> findUserAndGoods(int pageSize,int page){
 		String hql="from User u,Goods g where u.userid=g.userid";
-		return	sessionFactory.getCurrentSession().createQuery(hql).list(); 
+		return	sessionFactory.getCurrentSession().createQuery(hql)
+				.setFirstResult((page-1)*pageSize)
+				.setMaxResults(pageSize).list(); 
 		
 	}
 }

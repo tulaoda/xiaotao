@@ -26,6 +26,9 @@ public class UserAction extends BaseAction {
 	private String code;
 	private User loginedUser;
     private List<Object> list;
+    private int pageSize;
+	private int page;
+  
 	@Action(value = "login", results = { @Result(name = "success", type = "json") })
 	public String login() {
 		loginedUser = userService.login(user);
@@ -93,7 +96,7 @@ public class UserAction extends BaseAction {
 
 	@Action(value = "findUserAndGoods", results = { @Result(name = "success", type = "json") })
 	public String findUserAndGoods() {
-		list=userService.findUserAndGoods();
+		list=userService.findUserAndGoods(pageSize,page);
 		if (list.size()!=0) {
 			code = "1";
 		} else {
@@ -120,6 +123,22 @@ public class UserAction extends BaseAction {
 
 	public void setList(List<Object> list) {
 		this.list = list;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
 	}
 
 }
