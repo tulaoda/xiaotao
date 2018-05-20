@@ -1,5 +1,7 @@
 package com.xt.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,4 +44,8 @@ public class UserService {
 	public boolean modifyName(User user) {
 		return userDao.modifyName(user) > 0 ? true : false;
 	}
+	public List<Object> findUserAndGoods(){
+		return userDao.findUserAndGoods();
+	}
+	
 }

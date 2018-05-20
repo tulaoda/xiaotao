@@ -1,10 +1,13 @@
 package com.xt.dao;
 
+import java.util.List;
+
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.xt.entity.Goods;
 import com.xt.entity.User;
 
 @Repository
@@ -62,5 +65,11 @@ public class UserDao {
 		.createQuery("from User where nickname=? ")	
 		.setString(0, user.getNickname())
 		.uniqueResult();	
+	}
+	
+	public List<Object> findUserAndGoods(){
+		String hql="from User u,Goods g where u.userid=g.userid";
+		return	sessionFactory.getCurrentSession().createQuery(hql).list(); 
+		
 	}
 }

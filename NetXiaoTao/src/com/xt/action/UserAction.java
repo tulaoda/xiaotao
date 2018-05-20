@@ -1,5 +1,7 @@
 package com.xt.action;
 
+import java.util.List;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -23,7 +25,7 @@ public class UserAction extends BaseAction {
 
 	private String code;
 	private User loginedUser;
-
+    private List<Object> list;
 	@Action(value = "login", results = { @Result(name = "success", type = "json") })
 	public String login() {
 		loginedUser = userService.login(user);
@@ -89,6 +91,17 @@ public class UserAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	@Action(value = "findUserAndGoods", results = { @Result(name = "success", type = "json") })
+	public String findUserAndGoods() {
+		list=userService.findUserAndGoods();
+		if (list.size()!=0) {
+			code = "1";
+		} else {
+			code = "0";
+		}
+		return SUCCESS;
+	}
+
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -99,6 +112,14 @@ public class UserAction extends BaseAction {
 
 	public User getLoginedUser() {
 		return loginedUser;
+	}
+
+	public List<Object> getList() {
+		return list;
+	}
+
+	public void setList(List<Object> list) {
+		this.list = list;
 	}
 
 }
