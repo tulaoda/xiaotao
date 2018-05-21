@@ -19,7 +19,6 @@ import org.hibernate.annotations.FetchMode;
 @Table(name = "t_shopcart")
 public class Shopcart {
   @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
   @Column(name = "id")
   private Long id;
   

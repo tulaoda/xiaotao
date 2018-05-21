@@ -21,7 +21,6 @@ import org.hibernate.annotations.FetchMode;
 @Table(name = "t_wannas")
 public class Wannas {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private Long id;
 	

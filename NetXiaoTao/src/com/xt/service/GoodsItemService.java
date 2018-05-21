@@ -37,6 +37,10 @@ public class GoodsItemService {
 	public List<Goods> findGoodsItemByL_classForPage(Long l_class ,int pageSize,int page){
 		return goodsItemDao.findGoodsItemByL_classForPage(l_class,pageSize,page);
 	}
+	
+	public List<Goods> findLikeGoodsItemForPage(String content ,int pageSize,int page){
+		return goodsItemDao.findLikeGoodsItemForPage(content,pageSize,page);
+	}
 	public Goods findGoodsItemById(Long id){
 		return goodsItemDao.findGoodsItemById(id);
 	}
@@ -62,10 +66,10 @@ public class GoodsItemService {
 			goodsImg.setImage("http://192.168.0.16:8080/thunderDownload/"+fn);
 			goodsImg.setGoodsid(goodsItemDao.findMaxIdGoodsItem().getId()+1);
 			GoodsImgs.add(goodsImg);
-			/*if(goodsItemDao.findMaxIdGoodsItem()==null){
+			if(goodsItemDao.findMaxIdGoodsItem()==null){
 				goods.setId((long) 1);
 			}
-			goods.setId(goodsItemDao.findMaxIdGoodsItem().getId()+1);*/
+			goods.setId(goodsItemDao.findMaxIdGoodsItem().getId()+1);
 		    goods.setGoodsImg(GoodsImgs);
 		}
 		}

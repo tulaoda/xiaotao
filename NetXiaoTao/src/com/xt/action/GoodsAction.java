@@ -2,6 +2,7 @@ package com.xt.action;
 
 import java.io.File;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +52,18 @@ public class GoodsAction extends BaseAction{
 	
 	public String findAllGoodsItemByL_class(){
 		data=goodsItemService.findGoodsItemByL_classForPage(goodsItem.getL_class(),pageSize,page);
+		if(data!=null){
+			code="1";
+		}else{
+			code="0";
+		}
+		return SUCCESS;
+	}
+	@Action(value="findLikeGoodsItem",results={
+			@Result(name="success",type="json")
+	})
+	public String findLikeGoodsItem() throws UnsupportedEncodingException{
+		data=goodsItemService.findLikeGoodsItemForPage( new String(goodsItem.getContent().getBytes("ISO-8859-1"),"UTF-8"),pageSize,page);
 		if(data!=null){
 			code="1";
 		}else{

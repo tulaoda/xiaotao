@@ -56,8 +56,10 @@ public class WannasItemService {
 			wannaImg.setImage("http://192.168.0.16:8080/thunderDownload/"+fn);
 			if(wannasItemDao.findMaxIdWannasItem()==null){
 				wannaImg.setWannaid((long) 1);
+				wannas.setId((long) 1);
 			}else{
 			wannaImg.setWannaid(wannasItemDao.findMaxIdWannasItem().getId()+1);
+			wannas.setId(wannasItemDao.findMaxIdWannasItem().getId()+1);
 			}
 			WannaImgs.add(wannaImg);
 		    wannas.setWannaImg(WannaImgs);
