@@ -1,6 +1,8 @@
 package com.xt.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,11 +24,6 @@ public class Order {
   @Column(name = "id")
   private Long id;
   
-  @OneToMany(targetEntity=OrderMessage.class,cascade=CascadeType.ALL)  
-  @Fetch(FetchMode.JOIN)  
-  //updatable=false很关键，如果没有它，在级联删除的时候就会报错(反转的问题)  
-  @JoinColumn(name="orderId",updatable=false)  
-  
   @Column(name = "userid", length = 45)
   private String userid;
   
@@ -42,8 +39,23 @@ public class Order {
   
   @Column(name = "proxyid", length = 11)
   private Long proxyid;
+  
+  @OneToMany(targetEntity=OrderMessage.class,cascade=CascadeType.ALL)  
+  @Fetch(FetchMode.JOIN)  
+  //updatable=false很关键，如果没有它，在级联删除的时候就会报错(反转的问题)  
+  @JoinColumn(name="orderId",updatable=false)  
+  private List<OrderMessage> orderMessage = new ArrayList<OrderMessage>(); 
+  
+  
+  public List<OrderMessage> getOrderMessage() {
+	return orderMessage;
+}
 
-  public Order() {
+public void setOrderMessage(List<OrderMessage> orderMessage) {
+	this.orderMessage = orderMessage;
+}
+
+public Order() {
 	super();
 }
 
