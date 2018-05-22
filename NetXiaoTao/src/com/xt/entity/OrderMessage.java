@@ -12,14 +12,20 @@ import javax.persistence.Table;
 public class OrderMessage {
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)
-  @Column(name = "orderid")
-  private Long orderid;
+  @Column(name = "id")
+  private Long id;
   
-  @Column(name = "express", length = 20)
-  private String express;
+  @Column(name = "orderId", length = 11)
+  private String orderId;
   
-  @Column(name = "expressorder", length = 45)
-  private String expressorder;
+  @Column(name = "goodsId", length = 20)
+  private String goodsId;
+  
+  @Column(name = "count", length = 10)
+  private Long count;
+  
+  @Column(name = "expressnumber", length = 45)
+  private String expressnumber;
   
   @Column(name = "receiver", length = 10)
   private String receiver;
@@ -40,13 +46,15 @@ public class OrderMessage {
 	super();
 }
 
-public OrderMessage(Long orderid, String express, String expressorder,
-		String receiver, String phone, String area, String address,
-		String postalcode) {
+public OrderMessage(Long id, String orderId, String goodsId, Long count,
+		String expressnumber, String receiver, String phone, String area,
+		String address, String postalcode) {
 	super();
-	this.orderid = orderid;
-	this.express = express;
-	this.expressorder = expressorder;
+	this.id = id;
+	this.orderId = orderId;
+	this.goodsId = goodsId;
+	this.count = count;
+	this.expressnumber = expressnumber;
 	this.receiver = receiver;
 	this.phone = phone;
 	this.area = area;
@@ -54,67 +62,84 @@ public OrderMessage(Long orderid, String express, String expressorder,
 	this.postalcode = postalcode;
 }
 
-public Long getOrderid() {
-    return orderid;
-  }
+public Long getId() {
+	return id;
+}
 
-  public void setOrderid(Long orderid) {
-    this.orderid = orderid;
-  }
+public void setId(Long id) {
+	this.id = id;
+}
 
-  public String getExpress() {
-    return express;
-  }
+public String getOrderId() {
+	return orderId;
+}
 
-  public void setExpress(String express) {
-    this.express = express;
-  }
+public void setOrderId(String orderId) {
+	this.orderId = orderId;
+}
 
-  public String getExpressorder() {
-    return expressorder;
-  }
+public String getGoodsId() {
+	return goodsId;
+}
 
-  public void setExpressorder(String expressorder) {
-    this.expressorder = expressorder;
-  }
+public void setGoodsId(String goodsId) {
+	this.goodsId = goodsId;
+}
 
-  public String getReceiver() {
-    return receiver;
-  }
+public Long getCount() {
+	return count;
+}
 
-  public void setReceiver(String receiver) {
-    this.receiver = receiver;
-  }
+public void setCount(Long count) {
+	this.count = count;
+}
 
-  public String getPhone() {
-    return phone;
-  }
+public String getExpressnumber() {
+	return expressnumber;
+}
 
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
+public void setExpressnumber(String expressnumber) {
+	this.expressnumber = expressnumber;
+}
 
-  public String getArea() {
-    return area;
-  }
+public String getReceiver() {
+	return receiver;
+}
 
-  public void setArea(String area) {
-    this.area = area;
-  }
+public void setReceiver(String receiver) {
+	this.receiver = receiver;
+}
 
-  public String getAddress() {
-    return address;
-  }
+public String getPhone() {
+	return phone;
+}
 
-  public void setAddress(String address) {
-    this.address = address;
-  }
+public void setPhone(String phone) {
+	this.phone = phone;
+}
 
-  public String getPostalcode() {
-    return postalcode;
-  }
+public String getArea() {
+	return area;
+}
 
-  public void setPostalcode(String postalcode) {
-    this.postalcode = postalcode;
-  }
+public void setArea(String area) {
+	this.area = area;
+}
+
+public String getAddress() {
+	return address;
+}
+
+public void setAddress(String address) {
+	this.address = address;
+}
+
+public String getPostalcode() {
+	return postalcode;
+}
+
+public void setPostalcode(String postalcode) {
+	this.postalcode = postalcode;
+}
+
 }
