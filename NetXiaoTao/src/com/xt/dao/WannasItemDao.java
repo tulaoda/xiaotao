@@ -18,7 +18,7 @@ public class WannasItemDao {
 	
 	
 	public List<Wannas> findAllWannasItem(){
-		String hql="from Wannas";
+		String hql="from Wannas w,User u where w.userid=u.userid";
 		return sessionFactory.getCurrentSession().createQuery(hql).list();
 	}
 	
@@ -33,8 +33,8 @@ public class WannasItemDao {
 	}
 	
 
-	public List<Wannas> findWannasItemForPage(int pageSize,int page){
-		String hql="from Wannas";
+	public List<Object> findWannasItemForPage(int pageSize,int page){
+		String hql="from Wannas w,User u where w.userid=u.userid";
 		return	sessionFactory.getCurrentSession().createQuery(hql)
 		.setFirstResult((page-1)*pageSize)
 		.setMaxResults(pageSize)

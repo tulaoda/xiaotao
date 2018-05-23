@@ -65,7 +65,7 @@ public class GoodsItemDao {
 	
 	public List<Goods> findLikeGoodsItemForPage(String content,int pageSize,int page){
 		String hql = "from Goods as g where g.content like :content";  
-		return sessionFactory.getCurrentSession().createQuery(hql).setString("name","%"+content+"%")
+		return sessionFactory.getCurrentSession().createQuery(hql).setString("content","%"+content+"%")
 				.setFirstResult((page-1)*pageSize)
 				.setMaxResults(pageSize).list();
 		

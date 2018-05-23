@@ -3,6 +3,7 @@ package com.xt.action;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.xt.base.BaseAction;
+import com.xt.entity.User;
 import com.xt.entity.Wannas;
 import com.xt.service.WannasItemService;
 
@@ -25,10 +27,12 @@ public class WannasAction extends BaseAction{
 	private List<File> file;
 	private List<String> fileFileName;
 	private String code;
-	private List<Wannas> data;
+	private List<Object> data;
 	private int pageSize;
 	private int page;
 	public Wannas wannasItem;
+	private List<User> users=new ArrayList<User>();
+	private List<Wannas> wannas=new ArrayList<Wannas>();
 	@Autowired
 	private WannasItemService wannasItemService;
 	
@@ -39,6 +43,12 @@ public class WannasAction extends BaseAction{
 	public String findAllWannasItem(){
 		data=wannasItemService.findWannasItemForPage(pageSize,page);
 		if(data!=null){
+			Iterator it=data.iterator();
+			while(it.hasNext()){
+			Object[]obj=(Object[])it.next();
+			wannas.add((Wannas) obj[0]);
+			users.add((User) obj[1]);
+			}
 			code="1";
 		}else{
 			code="0";
@@ -101,7 +111,7 @@ public class WannasAction extends BaseAction{
 	}
 
 
-	public List<Wannas> getData() {
+	public List<Object> getData() {
 		return data;
 	}
 
@@ -122,7 +132,7 @@ public class WannasAction extends BaseAction{
 		return wannasItem;
 	}
 
-	public void setData(List<Wannas> data) {
+	public void setData(List<Object> data) {
 		this.data = data;
 	}
 
@@ -150,6 +160,22 @@ public class WannasAction extends BaseAction{
 	}
 	public void setPage(int page) {
 		this.page = page;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
+	public List<Wannas> getWannas() {
+		return wannas;
+	}
+
+	public void setWannas(List<Wannas> wannas) {
+		this.wannas = wannas;
 	}
 	
 	

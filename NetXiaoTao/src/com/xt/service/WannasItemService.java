@@ -2,7 +2,9 @@ package com.xt.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.xt.util.Utils;
+import com.mysql.jdbc.Util;
 import com.xt.dao.WannasItemDao;
 import com.xt.entity.WannaImg;
 import com.xt.entity.Wannas;
@@ -27,7 +31,7 @@ public class WannasItemService {
 		return wannasItemDao.findAllWannasItem();
 	}
 	
-	public List<Wannas> findWannasItemForPage(int pageSize,int page){
+	public List<Object> findWannasItemForPage(int pageSize,int page){
 		return wannasItemDao.findWannasItemForPage(pageSize,page);
 	}
 	
@@ -62,6 +66,7 @@ public class WannasItemService {
 			wannas.setId(wannasItemDao.findMaxIdWannasItem().getId()+1);
 			}
 			WannaImgs.add(wannaImg);
+			wannas.setCreatetime(new Timestamp(System.currentTimeMillis()));
 		    wannas.setWannaImg(WannaImgs);
 		}
 		}

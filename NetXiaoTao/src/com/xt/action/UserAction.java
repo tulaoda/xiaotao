@@ -1,5 +1,6 @@
 package com.xt.action;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.xt.base.BaseAction;
+import com.xt.entity.Goods;
 import com.xt.entity.User;
+import com.xt.entity.Wannas;
 import com.xt.service.UserService;
 
 @Namespace("/user")
@@ -28,7 +31,8 @@ public class UserAction extends BaseAction {
     private List<Object> list;
     private int pageSize;
 	private int page;
-  
+	private List<User> users;
+	private List<Goods> goods;
 	@Action(value = "login", results = { @Result(name = "success", type = "json") })
 	public String login() {
 		loginedUser = userService.login(user);
@@ -98,6 +102,12 @@ public class UserAction extends BaseAction {
 	public String findUserAndGoods() {
 		list=userService.findUserAndGoods(pageSize,page);
 		if (list.size()!=0) {
+			Iterator it=list.iterator();
+			while(it.hasNext()){
+			Object[]obj=(Object[])it.next();
+			users.add((User) obj[0]);
+			goods.add((Goods) obj[1]);
+			}
 			code = "1";
 		} else {
 			code = "0";
@@ -139,6 +149,30 @@ public class UserAction extends BaseAction {
 
 	public void setPage(int page) {
 		this.page = page;
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
+	public List<Goods> getGoods() {
+		return goods;
+	}
+
+	public void setGoods(List<Goods> goods) {
+		this.goods = goods;
 	}
 
 }

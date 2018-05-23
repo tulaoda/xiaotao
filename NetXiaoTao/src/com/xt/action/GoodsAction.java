@@ -63,7 +63,7 @@ public class GoodsAction extends BaseAction{
 			@Result(name="success",type="json")
 	})
 	public String findLikeGoodsItem() throws UnsupportedEncodingException{
-		data=goodsItemService.findLikeGoodsItemForPage( new String(goodsItem.getContent().getBytes("ISO-8859-1"),"UTF-8"),pageSize,page);
+		data=goodsItemService.findLikeGoodsItemForPage( goodsItem.getContent(),pageSize,page);
 		if(data!=null){
 			code="1";
 		}else{
