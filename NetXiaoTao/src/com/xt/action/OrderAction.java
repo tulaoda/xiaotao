@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.xt.base.BaseAction;
+import com.xt.dao.GoodsItemDao;
 import com.xt.entity.Goods;
 import com.xt.entity.Order;
 import com.xt.entity.OrderMessage;
@@ -45,6 +46,11 @@ public class OrderAction extends BaseAction{
 	@Autowired
 	private OrderItemService orderItemService;
 	
+	@Autowired
+	private GoodsItemService goodsItemService;
+	
+	@Autowired
+	private ShopcartItemService shopcartItemService;
 	@Action(value="addNewOrderByShopCart",results={
 			@Result(name="success",type="json")
 	})
@@ -55,10 +61,8 @@ public class OrderAction extends BaseAction{
 		String[] goodsIds = goodsids.split(","); 
 		String[] Counts = counts.split(",");
 		boolean flag1=true;
-		GoodsItemService service=new GoodsItemService();
-		Goods g=null;
 		for (int i = 0; i < goodsIds.length; i++) { 
-		g=service.findGoodsItemById(Long.parseLong(goodsIds[i]));
+		Goods g=goodsItemService.findGoodsItemById(Long.parseLong(goodsIds[i]));
 		if(flag1){
 		if(g.getStock()-Long.parseLong(Counts[i])<0){
 			flag1=false;
@@ -92,10 +96,10 @@ public class OrderAction extends BaseAction{
 		if(flag){
 			code="1";
 			for (int i = 0; i < goodsIds.length; i++) { 
-				g=service.findGoodsItemById(Long.parseLong(goodsIds[i]));
+				Goods g=goodsItemService.findGoodsItemById(Long.parseLong(goodsIds[i]));
 				g.setStock(g.getStock()-Long.parseLong(Counts[i]));
-				service.updateGoodsItem(g);
-				new ShopcartItemService().removeCartdet(new ShopcartItemService().findCartdetByGoodsId(goodsIds[i])) ;
+				goodsItemService.updateGoodsItem(g);
+				shopcartItemService.removeCartdet(shopcartItemService.findCartdetByGoodsId(goodsIds[i])) ;
 			}
 			
 			data=new ArrayList<>();

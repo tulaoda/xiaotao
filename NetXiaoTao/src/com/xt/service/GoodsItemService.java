@@ -45,7 +45,7 @@ public class GoodsItemService {
 		return goodsItemDao.findGoodsItemById(id);
 	}
 	public boolean updateGoodsItem(Goods goods){
-		goodsItemDao.removeGoodsItem(goods);
+		goodsItemDao.updateGoodsItem(goods);
 		return true;
 	}
 	public boolean removeGoodsItem(Goods goods){
