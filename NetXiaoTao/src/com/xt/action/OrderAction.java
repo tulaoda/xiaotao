@@ -38,6 +38,8 @@ public class OrderAction extends BaseAction{
 	private User user;
 	private String goodsids;
 	private String counts;
+	private long goodsid;
+	private long count;
 	private String receiver;
 	private String phone;
 	private String area;
@@ -114,6 +116,55 @@ public class OrderAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	@Action(value="addNewOrder",results={
+			@Result(name="success",type="json")
+	})
+	public String addNewOrder(){
+		Order order=new Order();
+		List<OrderMessage> list=new ArrayList<OrderMessage>();
+		OrderMessage orderMessage=null;
+		boolean flag1=true;
+		Goods g=goodsItemService.findGoodsItemById(goodsid);
+		if(g.getStock()-count<0){
+			flag1=false;
+		}
+		if(flag1){
+		if(orderItemService.findMaxIdOrderItem()==null){
+			order.setId((long) 1);
+		}else{
+		order.setId(orderItemService.findMaxIdOrderItem().getId()+1);
+		}
+		order.setUserid(user.getUserid());
+		order.setState((long) 0);
+		order.setCreatetime(new Timestamp(System.currentTimeMillis()));
+			orderMessage=new OrderMessage();
+			orderMessage.setOrderId(order.getId());
+			orderMessage.setGoodsId(String.valueOf(goodsid));
+			orderMessage.setCount(count);
+			orderMessage.setReceiver(receiver);
+			orderMessage.setPhone(phone);
+			orderMessage.setArea(area);
+			orderMessage.setAddress(address);
+			orderMessage.setPostalcode(postalcode);
+			list.add(orderMessage);
+		order.setOrderMessage(list);
+		boolean flag=orderItemService.addNewOrderByShopCart(order);
+		if(flag){
+			code="1";
+				g=goodsItemService.findGoodsItemById(goodsid);
+				g.setStock(g.getStock()-count);
+				goodsItemService.updateGoodsItem(g);
+			data=new ArrayList<>();
+			data.add(orderItemService.findMaxIdOrderItem());
+		}else{
+			code="0";
+		}
+		}else{
+			code="0";
+		}
+			
+		return SUCCESS;
+	}
 
 	
 	@Action(value="findAllMyOrder",results={
@@ -318,6 +369,22 @@ public class OrderAction extends BaseAction{
 
 	public void setOrderItemService(OrderItemService orderItemService) {
 		this.orderItemService = orderItemService;
+	}
+
+	public long getGoodsid() {
+		return goodsid;
+	}
+
+	public void setGoodsid(long goodsid) {
+		this.goodsid = goodsid;
+	}
+
+	public long getCount() {
+		return count;
+	}
+
+	public void setCount(long count) {
+		this.count = count;
 	}
 
 }
