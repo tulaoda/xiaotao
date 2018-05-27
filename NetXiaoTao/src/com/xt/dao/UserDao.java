@@ -74,4 +74,6 @@ public class UserDao {
 				.setMaxResults(pageSize).list(); 
 		
 	}
+
+	
 }

@@ -47,5 +47,5 @@ public class UserService {
 	public List<Object> findUserAndGoods(int pageSize,int page){
 		return userDao.findUserAndGoods(pageSize,page);
 	}
-	
+
 }

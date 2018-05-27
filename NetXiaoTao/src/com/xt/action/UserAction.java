@@ -1,5 +1,6 @@
 package com.xt.action;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,8 +32,8 @@ public class UserAction extends BaseAction {
     private List<Object> list;
     private int pageSize;
 	private int page;
-	private List<User> users;
-	private List<Goods> goods;
+	private List<User> users=new ArrayList<User>();;
+	private List<Goods> goods=new ArrayList<Goods>();;
 	@Action(value = "login", results = { @Result(name = "success", type = "json") })
 	public String login() {
 		loginedUser = userService.login(user);

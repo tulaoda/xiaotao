@@ -16,7 +16,7 @@ public class OrderMessage {
   private Long id;
   
   @Column(name = "orderId", length = 11)
-  private String orderId;
+  private Long orderId;
   
   @Column(name = "goodsId", length = 20)
   private String goodsId;
@@ -46,7 +46,7 @@ public class OrderMessage {
 	super();
 }
 
-public OrderMessage(Long id, String orderId, String goodsId, Long count,
+public OrderMessage(Long id, Long orderId, String goodsId, Long count,
 		String expressnumber, String receiver, String phone, String area,
 		String address, String postalcode) {
 	super();
@@ -70,11 +70,11 @@ public void setId(Long id) {
 	this.id = id;
 }
 
-public String getOrderId() {
+public Long getOrderId() {
 	return orderId;
 }
 
-public void setOrderId(String orderId) {
+public void setOrderId(Long orderId) {
 	this.orderId = orderId;
 }
 

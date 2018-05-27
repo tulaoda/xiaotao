@@ -35,7 +35,9 @@ public class GoodsItemDao {
 	public void removeGoodsItem(Goods goods){
 		sessionFactory.getCurrentSession().delete(goods);
 	}
-	
+	public void updateGoodsItem(Goods goods){
+		sessionFactory.getCurrentSession().update(goods);
+	}
 	public List<Goods> findGoodsItemByL_classForPage(Long l_class ,int pageSize,int page){
 		String hql="from Goods where l_class=?";
 		return	sessionFactory.getCurrentSession().createQuery(hql)
