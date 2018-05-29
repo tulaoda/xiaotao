@@ -24,6 +24,13 @@ public class OrderMessage {
   @Column(name = "count", length = 10)
   private Long count;
   
+  @Column(name = "state", length = 1)
+  private Long state;
+  
+  
+  @Column(name = "pay_time", length = 0)
+  private java.sql.Timestamp pay_time;
+  
   @Column(name = "expressnumber", length = 45)
   private String expressnumber;
   
@@ -47,13 +54,15 @@ public class OrderMessage {
 }
 
 public OrderMessage(Long id, Long orderId, String goodsId, Long count,
-		String expressnumber, String receiver, String phone, String area,
+		Long state,java.sql.Timestamp pay_time,String expressnumber, String receiver, String phone, String area,
 		String address, String postalcode) {
 	super();
 	this.id = id;
 	this.orderId = orderId;
 	this.goodsId = goodsId;
 	this.count = count;
+	this.state=state;
+	this.pay_time=pay_time;
 	this.expressnumber = expressnumber;
 	this.receiver = receiver;
 	this.phone = phone;
@@ -93,7 +102,21 @@ public Long getCount() {
 public void setCount(Long count) {
 	this.count = count;
 }
+public Long getState() {
+	return state;
+}
 
+public void setState(Long state) {
+	this.state = state;
+}
+
+public java.sql.Timestamp getPay_time() {
+	return pay_time;
+}
+
+public void setPay_time(java.sql.Timestamp pay_time) {
+	this.pay_time = pay_time;
+}
 public String getExpressnumber() {
 	return expressnumber;
 }

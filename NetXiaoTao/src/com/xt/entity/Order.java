@@ -27,13 +27,6 @@ public class Order {
   @Column(name = "userid", length = 45)
   private String userid;
   
-  @Column(name = "state", length = 1)
-  private Long state;
-  
-  
-  @Column(name = "pay_time", length = 0)
-  private java.sql.Timestamp pay_time;
-  
   @Column(name = "createtime", length = 0)
   private java.sql.Timestamp createtime;
   
@@ -59,13 +52,11 @@ public Order() {
 	super();
 }
 
-public Order(Long id, String userid, Long state, Timestamp pay_time,
+public Order(Long id, String userid,
 		Timestamp createtime, Long proxyid) {
 	super();
 	this.id = id;
 	this.userid = userid;
-	this.state = state;
-	this.pay_time = pay_time;
 	this.createtime = createtime;
 	this.proxyid = proxyid;
 }
@@ -86,21 +77,7 @@ public void setUserid(String userid) {
 	this.userid = userid;
 }
 
-public Long getState() {
-	return state;
-}
 
-public void setState(Long state) {
-	this.state = state;
-}
-
-public java.sql.Timestamp getPay_time() {
-	return pay_time;
-}
-
-public void setPay_time(java.sql.Timestamp pay_time) {
-	this.pay_time = pay_time;
-}
 
 public java.sql.Timestamp getCreatetime() {
 	return createtime;

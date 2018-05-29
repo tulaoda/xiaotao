@@ -37,11 +37,11 @@ public class ShopcartItemService {
 	
 	/*public Goods findGoodsItemById(Long id){
 		return goodsItemDao.findGoodsItemById(id);
-	}
-	public boolean removeGoodsItem(Goods goods){
-		goodsItemDao.removeGoodsItem(goods);
-		return true;
 	}*/
+	public boolean removeShopcartItem(Shopcart sc){
+		shopcartItemDao.removeShopcartItem(sc);
+		return true;
+	}
 	public boolean addNewShopcartItem(Shopcart sc){
 		if(shopcartItemDao.findMaxIdShopcartItem()==null){
 			sc.getC().setCartid((long)1);
@@ -64,6 +64,10 @@ public class ShopcartItemService {
 	
 	public Cartdet findCartdetByGoodsId(String goodsId){
 		return shopcartItemDao.findCartdetByGoodsId(goodsId);
+	}
+	
+	public Shopcart findShopcartByGoodsId(String goodsId){
+		return shopcartItemDao.findShopcartByGoodsId(goodsId);
 	}
 	
 	public boolean removeCartdet(Cartdet c){

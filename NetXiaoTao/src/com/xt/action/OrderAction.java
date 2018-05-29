@@ -35,11 +35,14 @@ public class OrderAction extends BaseAction{
 	private List<User> users=new ArrayList<User>();
 	private List<Goods> goods=new ArrayList<Goods>();
 	private List<Order> orders=new ArrayList<Order>();
+	private List<OrderMessage> ordermessages=new ArrayList<OrderMessage>();
 	private User user;
+	private Order orderItem;
 	private String goodsids;
 	private String counts;
 	private long goodsid;
 	private long count;
+	private long state;
 	private String receiver;
 	private String phone;
 	private String area;
@@ -62,23 +65,12 @@ public class OrderAction extends BaseAction{
 		OrderMessage orderMessage=null;
 		String[] goodsIds = goodsids.split(","); 
 		String[] Counts = counts.split(",");
-		boolean flag1=true;
-		for (int i = 0; i < goodsIds.length; i++) { 
-		Goods g=goodsItemService.findGoodsItemById(Long.parseLong(goodsIds[i]));
-		if(flag1){
-		if(g.getStock()-Long.parseLong(Counts[i])<0){
-			flag1=false;
-		}
-		}
-		}
-		if(flag1){
 		if(orderItemService.findMaxIdOrderItem()==null){
 			order.setId((long) 1);
 		}else{
 		order.setId(orderItemService.findMaxIdOrderItem().getId()+1);
 		}
 		order.setUserid(user.getUserid());
-		order.setState((long) 0);
 		order.setCreatetime(new Timestamp(System.currentTimeMillis()));
 		
 		for (int i = 0; i < goodsIds.length; i++) { 
@@ -86,6 +78,7 @@ public class OrderAction extends BaseAction{
 			orderMessage.setOrderId(order.getId());
 			orderMessage.setGoodsId(goodsIds[i]);
 			orderMessage.setCount( Long.parseLong(Counts[i]));
+			orderMessage.setState((long) 0);
 			orderMessage.setReceiver(receiver);
 			orderMessage.setPhone(phone);
 			orderMessage.setArea(area);
@@ -98,20 +91,15 @@ public class OrderAction extends BaseAction{
 		if(flag){
 			code="1";
 			for (int i = 0; i < goodsIds.length; i++) { 
-				Goods g=goodsItemService.findGoodsItemById(Long.parseLong(goodsIds[i]));
-				g.setStock(g.getStock()-Long.parseLong(Counts[i]));
-				goodsItemService.updateGoodsItem(g);
 				shopcartItemService.removeCartdet(shopcartItemService.findCartdetByGoodsId(goodsIds[i])) ;
 			}
-			
+			shopcartItemService.removeShopcartItem(shopcartItemService.findShopcartByGoodsId(goodsIds[0]));
 			data=new ArrayList<>();
 			data.add(orderItemService.findMaxIdOrderItem());
 		}else{
 			code="0";
 		}
-		}else{
-			code="0";
-		}
+		
 			
 		return SUCCESS;
 	}
@@ -135,12 +123,12 @@ public class OrderAction extends BaseAction{
 		order.setId(orderItemService.findMaxIdOrderItem().getId()+1);
 		}
 		order.setUserid(user.getUserid());
-		order.setState((long) 0);
 		order.setCreatetime(new Timestamp(System.currentTimeMillis()));
 			orderMessage=new OrderMessage();
 			orderMessage.setOrderId(order.getId());
 			orderMessage.setGoodsId(String.valueOf(goodsid));
 			orderMessage.setCount(count);
+			orderMessage.setState((long) 0);
 			orderMessage.setReceiver(receiver);
 			orderMessage.setPhone(phone);
 			orderMessage.setArea(area);
@@ -166,6 +154,46 @@ public class OrderAction extends BaseAction{
 		return SUCCESS;
 	}
 
+	@Action(value="UpdateOrderState",results={
+			@Result(name="success",type="json")
+	})
+	public String updateOrderState(){
+		List<OrderMessage> list=new ArrayList<OrderMessage>();
+		if(orderItemService.findOrderMessageByOrderidAndGoodsid(orderItem.getId(), String.valueOf(goodsid)).get(0)==null){
+		list=orderItemService.findOrderMessageByOrderid(orderItem.getId());
+		}else{
+		list=orderItemService.findOrderMessageByOrderidAndGoodsid(orderItem.getId(), String.valueOf(goodsid));
+		}
+		OrderMessage orderMessage=null;
+		boolean flag1=true;
+		for(OrderMessage om:list){
+			Goods g=goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId()));
+			if(flag1){
+			if(g.getStock()-om.getCount()<0){
+				flag1=false;
+			}
+			}
+		}
+		if(flag1){
+			for(OrderMessage om:list){
+				if(state==1){
+				om.setState(state);
+				om.setPay_time(new Timestamp(System.currentTimeMillis()));
+				}else{
+					om.setState(state);
+				}
+				orderItemService.updateOrderItemState(om);
+				Goods g=goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId()));
+				g.setStock(g.getStock()-om.getCount());
+				goodsItemService.updateGoodsItem(g);
+			}
+			code="1";
+		}else{
+			code="0";
+		}
+			
+		return SUCCESS;
+	}
 	
 	@Action(value="findAllMyOrder",results={
 			@Result(name="success",type="json")
@@ -179,6 +207,7 @@ public class OrderAction extends BaseAction{
 			orders.add((Order) obj[0]);
 			goods.add((Goods) obj[1]);
 			users.add((User) obj[2]);
+			ordermessages.add((OrderMessage) obj[3]);
 			}
 			code="1";
 		}else{
@@ -187,6 +216,26 @@ public class OrderAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	@Action(value="findAllMyOrderByState",results={
+			@Result(name="success",type="json")
+	})
+	public String findAllMyOrderByState(){
+		data=orderItemService.findAllMyOrderByStateForPage(user.getUserid(),state,pageSize, page);
+		if(data!=null){
+			Iterator it=data.iterator();
+			while(it.hasNext()){
+			Object[]obj=(Object[])it.next();
+			orders.add((Order) obj[0]);
+			goods.add((Goods) obj[1]);
+			users.add((User) obj[2]);
+			ordermessages.add((OrderMessage) obj[3]);
+			}
+			code="1";
+		}else{
+			code="0";
+		}
+		return SUCCESS;
+	}
 	/*@Action(value="findAllOrder",results={
 			@Result(name="success",type="json")
 	})
@@ -385,6 +434,30 @@ public class OrderAction extends BaseAction{
 
 	public void setCount(long count) {
 		this.count = count;
+	}
+
+	public Order getOrderItem() {
+		return orderItem;
+	}
+
+	public void setOrderItem(Order orderItem) {
+		this.orderItem = orderItem;
+	}
+
+	public long getState() {
+		return state;
+	}
+
+	public void setState(long state) {
+		this.state = state;
+	}
+
+	public List<OrderMessage> getOrdermessages() {
+		return ordermessages;
+	}
+
+	public void setOrdermessages(List<OrderMessage> ordermessages) {
+		this.ordermessages = ordermessages;
 	}
 
 }
