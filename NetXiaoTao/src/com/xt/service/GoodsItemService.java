@@ -37,7 +37,9 @@ public class GoodsItemService {
 	public List<Goods> findGoodsItemByL_classForPage(Long l_class ,int pageSize,int page){
 		return goodsItemDao.findGoodsItemByL_classForPage(l_class,pageSize,page);
 	}
-	
+	public List<Object> findGoodsItemByUseridForPage(String  userid ,int pageSize,int page){
+		return goodsItemDao.findGoodsItemByUseridForPage(userid,pageSize,page);
+	}
 	public List<Goods> findLikeGoodsItemForPage(String content ,int pageSize,int page){
 		return goodsItemDao.findLikeGoodsItemForPage(content,pageSize,page);
 	}

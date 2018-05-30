@@ -58,7 +58,7 @@ public class ShopcartAction extends BaseAction{
 			}
 			code="1";
 		}else{
-			code="0";
+			code="0";	
 		}
 		return SUCCESS;
 	}

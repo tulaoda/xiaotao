@@ -46,6 +46,14 @@ public class GoodsItemDao {
 		.setMaxResults(pageSize).list(); 
 		
 	}
+	public List<Object> findGoodsItemByUseridForPage(String userid ,int pageSize,int page){
+		String hql="from Goods g,User u where g.userid=u.userid and u.userid=?";
+		return	sessionFactory.getCurrentSession().createQuery(hql)
+		.setString(0, userid)
+		.setFirstResult((page-1)*pageSize)
+		.setMaxResults(pageSize).list(); 
+		
+	}
 	public List<Goods> findGoodsItemForPage(int pageSize,int page){
 		String hql="from Goods";
 		return	sessionFactory.getCurrentSession().createQuery(hql)
