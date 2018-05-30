@@ -7,6 +7,14 @@
 店铺查询
 http://localhost:8080/NetXiaoTao/user/findUserAndGoods
 
-查询购物车
+查询购物车  
 
-http://localhost:8080/NetXiaoTao/shopcart/findAllShopcartItemByUserid?user.id=1e3500b06a5c4e49a258f31e0bcce3a7&pageSize=10&page=1
+http://localhost:8080/NetXiaoTao/shopcart/findAllShopcartItemByUserid?user.userid=1e3500b06a5c4e49a258f31e0bcce3a7&pageSize=10&page=1   
+
+
+提交订单：
+http://localhost:8080/NetXiaoTao/order/addNewOrderByShopCart?user.userid=1e3500b06a5c4e49a258f31e0bcce3a7&goodsids=15,16&counts=2,3
+
+支付订单：
+http://localhost:8080/NetXiaoTao/order/UpdateOrderState?orderItem.id=2&state=1
+
