@@ -9,79 +9,68 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity  
-@Table(name = "t_chat")  
+@Entity
+@Table(name = "t_chat")
 public class Chat {
-  @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
-  @Column(name = "id")
-  private Long id;
-  
-  @Column(name = "s_userid", length = 11)
-  private Long s_userid;
-  
-  @Column(name = "content", length = 200)
-  private String content;
-  
-  @Column(name = "createTime", length = 11)
-  private java.sql.Timestamp createTime;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
+	private Long id;
 
-  @Column(name = "r_userid", length = 11)
-  private Long r_userid;
+	@Column(name = "s_userid", length = 45)
+	private String s_userid;
 
-public Chat() {
-	super();
-}
+	@Column(name = "content", length = 200)
+	private String content;
 
-public Chat(Long id, Long s_userid, String content, Timestamp createTime,
-		Long r_userid) {
-	super();
-	this.id = id;
-	this.s_userid = s_userid;
-	this.content = content;
-	this.createTime = createTime;
-	this.r_userid = r_userid;
-}
+	@Column(name = "createTime", length = 11)
+	private java.sql.Timestamp createTime;
 
-public Long getId() {
-	return id;
-}
+	@Column(name = "r_userid", length = 45)
+	private String r_userid;
 
-public void setId(Long id) {
-	this.id = id;
-}
+	public Chat() {
+		super();
+	}
 
-public Long getS_userid() {
-	return s_userid;
-}
+	public Long getId() {
+		return id;
+	}
 
-public void setS_userid(Long s_userid) {
-	this.s_userid = s_userid;
-}
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-public String getContent() {
-	return content;
-}
+	public String getContent() {
+		return content;
+	}
 
-public void setContent(String content) {
-	this.content = content;
-}
+	public void setContent(String content) {
+		this.content = content;
+	}
 
-public java.sql.Timestamp getCreateTime() {
-	return createTime;
-}
+	public java.sql.Timestamp getCreateTime() {
+		return createTime;
+	}
 
-public void setCreateTime(java.sql.Timestamp createTime) {
-	this.createTime = createTime;
-}
+	public void setCreateTime(java.sql.Timestamp createTime) {
+		this.createTime = createTime;
+	}
 
-public Long getR_userid() {
-	return r_userid;
-}
+	public String getS_userid() {
+		return s_userid;
+	}
 
-public void setR_userid(Long r_userid) {
-	this.r_userid = r_userid;
-}
- 
-  
+	public void setS_userid(String s_userid) {
+		this.s_userid = s_userid;
+	}
+
+	public String getR_userid() {
+		return r_userid;
+	}
+
+	public void setR_userid(String r_userid) {
+		this.r_userid = r_userid;
+	}
+
 }

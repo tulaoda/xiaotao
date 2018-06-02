@@ -10,41 +10,55 @@ import org.springframework.stereotype.Repository;
 import com.xt.entity.Chat;
 import com.xt.entity.Wannas;
 
-
 @Repository
 public class ChatItemDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-	
-	
-	public List<Chat> findAllMyChatItem(Long s_userid,Long r_userid){
-		String hql="from Chat c where c.s_userid=? and c.r_userid =? order by c.createTime";
-		return sessionFactory.getCurrentSession().createQuery(hql).setLong(0, s_userid).setLong(1, r_userid).list();
+
+	public List<Chat> findAllMyChatItem(String s_userid, String r_userid) {
+		String hql = "from Chat c where (c.s_userid=? and c.r_userid =?) or (c.s_userid=? and c.r_userid =?) order by c.createTime";
+		return sessionFactory.getCurrentSession().createQuery(hql)
+				.setString(0, s_userid).setString(1, r_userid)
+				.setString(2, r_userid).setString(3, s_userid).list();
 	}
-	
-	public void removeChatItem(Chat c){
+
+	public void removeChatItem(Chat c) {
 		sessionFactory.getCurrentSession().delete(c);
 	}
-	
 
-	public List<Chat> findAllMyChatItemForPage(Long s_userid,Long r_userid,int pageSize,int page){
-		String hql="from Chat c where c.s_userid=? and c.r_userid =? order by c.createTime";
-		return	sessionFactory.getCurrentSession().createQuery(hql).setLong(0, r_userid).setLong(1, s_userid)
-		.setFirstResult((page-1)*pageSize)
-		.setMaxResults(pageSize)
-		.setMaxResults(pageSize).list(); 
-		
+	public List<Chat> findAllMyChatItemForPage(Long s_userid, Long r_userid,
+			int pageSize, int page) {
+		String hql = "from Chat c where c.s_userid=? and c.r_userid =? order by c.createTime";
+		return sessionFactory.getCurrentSession().createQuery(hql)
+				.setLong(0, r_userid).setLong(1, s_userid)
+				.setFirstResult((page - 1) * pageSize).setMaxResults(pageSize)
+				.setMaxResults(pageSize).list();
+
 	}
-	
-	public void addNewChatItem(Chat c){
+
+	public void addNewChatItem(Chat c) {
 		sessionFactory.getCurrentSession().save(c);
 	}
-	
-	public Chat findMaxIdChatItem(){
+
+	public Chat findMaxIdChatItem() {
 		String hql = "from Chat where id=(select max(id) from Chat) ";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		Chat chatItem=(Chat) query.uniqueResult();
+		Chat chatItem = (Chat) query.uniqueResult();
 		return chatItem;
 	}
+
+	/*
+	 * 查询消息列表
+	 */
+	public List<Chat> findMyMessageList(String s_userid) {
+		String hql = "select * from (select * from t_chat ORDER BY createTime DESC) as a  where a.s_userid=? GROUP BY r_userid ";
+		/*
+		 * session.createSQLQuery(sql)这句话指明了hibernate用的是原生态的sql语句
+		 */
+		return (List<Chat>)sessionFactory.getCurrentSession().createSQLQuery(hql)
+				.setString(0, s_userid).list();
+
+	}
+
 }
