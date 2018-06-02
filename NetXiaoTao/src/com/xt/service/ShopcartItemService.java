@@ -46,9 +46,10 @@ public class ShopcartItemService {
 		if(shopcartItemDao.findMaxIdShopcartItem()==null){
 			sc.getC().setCartid((long)1);
 			sc.setId((long)1);
-		}
+		}else{
 		sc.setId(shopcartItemDao.findMaxIdShopcartItem().getId()+1);
 		sc.getC().setCartid(shopcartItemDao.findMaxIdShopcartItem().getId()+1);
+}
 		shopcartItemDao.addNewShopcartItem(sc);
 		return true;
 	}

@@ -109,7 +109,6 @@ public Long getState() {
 public void setState(Long state) {
 	this.state = state;
 }
-
 public java.sql.Timestamp getPay_time() {
 	return pay_time;
 }

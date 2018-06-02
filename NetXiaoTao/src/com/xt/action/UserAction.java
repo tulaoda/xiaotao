@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.xt.base.BaseAction;
+import com.xt.entity.Address;
 import com.xt.entity.Goods;
 import com.xt.entity.User;
 import com.xt.entity.Wannas;
@@ -32,6 +33,8 @@ public class UserAction extends BaseAction {
     private List<Object> list;
     private int pageSize;
 	private int page;
+	private double recharge_amount;
+	private Address address;
 	private List<User> users=new ArrayList<User>();;
 	private List<Goods> goods=new ArrayList<Goods>();;
 	@Action(value = "login", results = { @Result(name = "success", type = "json") })
@@ -61,6 +64,7 @@ public class UserAction extends BaseAction {
 	public String register() {
 		String userid = java.util.UUID.randomUUID().toString().replace("-", "");
 		user.setUserid(userid);
+		user.setBalance(0.0);
 		if (userService.register(user)) {
 			code = "1";
 		} else {
@@ -69,36 +73,79 @@ public class UserAction extends BaseAction {
 		return SUCCESS;
 	}
 
-	@Action(value = "modifyPass", results = { @Result(name = "success", type = "json") })
+	@Action(value = "modifyPasswd", results = { @Result(name = "success", type = "json") })
 	public String modifyPass() {
-		if (userService.modifyPass(user)) {
+		if (userService.modifyPasswd(user)) {
 			code = "1";
 		} else {
 			code = "0";
 		}
 		return SUCCESS;
 	}
-
-	@Action(value = "modifyAddress", results = { @Result(name = "success", type = "json") })
-	public String modifyAddress() {
-		if (userService.modifyAddress(user)) {
+	
+	@Action(value = "modifyBalance", results = { @Result(name = "success", type = "json") })
+	public String modifyBalance() {
+		user.setBalance(userService.findUserByUserid(user.getUserid()).getBalance()+recharge_amount);
+		if (userService.modifyBalance(user)) {
 			code = "1";
 		} else {
 			code = "0";
 		}
 		return SUCCESS;
 	}
-
-	@Action(value = "modifyName", results = { @Result(name = "success", type = "json") })
-	public String modifyName() {
-		if (userService.modifyName(user)) {
+	
+	@Action(value = "modifyUserBaseInfo", results = { @Result(name = "success", type = "json") })
+	public String modifyUserBaseInfo() {
+		if (userService.modifyUserBaseInfo(user)) {
 			code = "1";
 		} else {
 			code = "0";
 		}
 		return SUCCESS;
 	}
-
+	
+	@Action(value = "addAddress", results = { @Result(name = "success", type = "json") })
+	public String addAddress() {
+		user=userService.findUserByUserid(user.getUserid());
+		user.getAddresss().add(address);
+		if (userService.updateAddress(user)) {
+			code = "1";
+		} else {
+			code = "0";
+		}
+		return SUCCESS;
+	}
+	@Action(value = "updateAddress", results = { @Result(name = "success", type = "json") })
+	public String updateAddress() {
+		user=userService.findUserByUserid(user.getUserid());
+	    Address ads=userService.findAddressById(address.getId());
+	    int i=0;
+	    for(int j=0;j<user.getAddresss().size();j++){
+	    	if(user.getAddresss().get(j).getId()==ads.getId()){
+	    		i=j;
+	    	}
+	    }
+	    address.setId(ads.getId());
+	    address.setUserid(ads.getUserid());
+		user.getAddresss().set(i,address);
+		if (userService.updateAddress(user)) {
+			code = "1";
+		} else {
+			code = "0";
+		}
+		return SUCCESS;
+	}
+	@Action(value = "deleteAddress", results = { @Result(name = "success", type = "json") })
+	public String deleteAddress() {
+		user=userService.findUserByUserid(user.getUserid());
+		user.getAddresss().remove(address);
+		if (userService.updateAddress(user)) {
+			code = "1";
+		} else {
+			code = "0";
+		}
+		return SUCCESS;
+	}
 	@Action(value = "findUserAndGoods", results = { @Result(name = "success", type = "json") })
 	public String findUserAndGoods() {
 		list=userService.findUserAndGoods(pageSize,page);
@@ -174,6 +221,30 @@ public class UserAction extends BaseAction {
 
 	public void setGoods(List<Goods> goods) {
 		this.goods = goods;
+	}
+
+	public double getRecharge_amount() {
+		return recharge_amount;
+	}
+
+	public void setRecharge_amount(double recharge_amount) {
+		this.recharge_amount = recharge_amount;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setLoginedUser(User loginedUser) {
+		this.loginedUser = loginedUser;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 }

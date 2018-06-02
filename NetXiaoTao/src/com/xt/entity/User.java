@@ -1,13 +1,21 @@
 package com.xt.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "t_user")
@@ -15,6 +23,20 @@ public class User {
 	@Id
 	@Column(name = "userid")
 	private String userid;
+
+	@OneToMany(targetEntity=Address.class,cascade=CascadeType.ALL)  
+	  @Fetch(FetchMode.JOIN)  
+	  //updatable=false很关键，如果没有它，在级联删除的时候就会报错(反转的问题)  
+	  @JoinColumn(name="userid",updatable=false)  
+	private List<Address> addresss = new ArrayList<Address>();
+	
+	public List<Address> getAddresss() {
+		return addresss;
+	}
+
+	public void setAddresss(List<Address> addresss) {
+		this.addresss = addresss;
+	}
 
 	@Column(name = "nickname", length = 20)
 	private String nickname;
@@ -43,21 +65,7 @@ public class User {
 	@Column(name = "balance", length = 10)
 	private Double balance;
 
-	@Column(name = "receiver", length = 10)
-	private String receiver;
-
-	@Column(name = "phone", length = 11)
-	private String phone;
-
-	@Column(name = "area", length = 45)
-	private String area;
-
-	@Column(name = "address", length = 45)
-	private String address;
-
-	@Column(name = "postalcode", length = 8)
-	private String postalcode;
-
+	
 	@Column(name = "userstate", length = 45)
 	private String userstate;
 
@@ -67,8 +75,7 @@ public class User {
 
 	public User(String userid, String nickname, String passwd, String school,
 			String photo, Long credits, Long auth, Long bond,
-			Timestamp bondtime, Double balance, String receiver, String phone,
-			String area, String address, String postalcode, String userstate) {
+			Timestamp bondtime, Double balance, String userstate) {
 		super();
 		this.userid = userid;
 		this.nickname = nickname;
@@ -80,11 +87,6 @@ public class User {
 		this.bond = bond;
 		this.bondtime = bondtime;
 		this.balance = balance;
-		this.receiver = receiver;
-		this.phone = phone;
-		this.area = area;
-		this.address = address;
-		this.postalcode = postalcode;
 		this.userstate = userstate;
 	}
 
@@ -168,46 +170,6 @@ public class User {
 		this.balance = balance;
 	}
 
-	public String getReceiver() {
-		return receiver;
-	}
-
-	public void setReceiver(String receiver) {
-		this.receiver = receiver;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getArea() {
-		return area;
-	}
-
-	public void setArea(String area) {
-		this.area = area;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getPostalcode() {
-		return postalcode;
-	}
-
-	public void setPostalcode(String postalcode) {
-		this.postalcode = postalcode;
-	}
-
 	public String getUserstate() {
 		return userstate;
 	}
@@ -216,4 +178,5 @@ public class User {
 		this.userstate = userstate;
 	}
 
+	
 }

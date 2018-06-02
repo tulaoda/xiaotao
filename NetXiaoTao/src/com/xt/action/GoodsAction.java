@@ -30,6 +30,7 @@ public class GoodsAction extends BaseAction {
 	private List<String> fileFileName;
 	private String code;
 	private List<Goods> data;
+	private int count;
 	private int pageSize;
 	private int page;
 	public Goods goodsItem;
@@ -103,10 +104,21 @@ public class GoodsAction extends BaseAction {
 		return SUCCESS;
 	}
 
+
 	@Action(value = "removeGoodsItem", results = { @Result(name = "success", type = "json") })
 	public String removeGoodsItem() {
 		boolean flag = goodsItemService.removeGoodsItem(goodsItem);
 		if (flag) {
+			code = "1";
+		} else {
+			code = "0";
+		}
+		return SUCCESS;
+	}
+	@Action(value = "modifyStock", results = { @Result(name = "success", type = "json")})
+	public String modifyStock() {
+		goodsItem.setStock(goodsItemService.findGoodsItemById(goodsItem.getId()).getStock()+count);
+		if (goodsItemService.updateGoodsItem(goodsItem)) {
 			code = "1";
 		} else {
 			code = "0";
@@ -225,6 +237,13 @@ public class GoodsAction extends BaseAction {
 
 	public void setGoods(List<Goods> goods) {
 		this.goods = goods;
+	}
+
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 }

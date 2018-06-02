@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xt.dao.UserDao;
+import com.xt.entity.Address;
 import com.xt.entity.User;
 
 @Transactional
@@ -33,19 +34,30 @@ public class UserService {
 		return userDao.validateNickname(user);
 	}
 
-	public boolean modifyPass(User user) {
-		return userDao.modifyPass(user) > 0 ? true : false;
+	public boolean modifyPasswd(User user) {
+		return userDao.modifyPasswd(user) > 0 ? true : false;
 	}
 
-	public boolean modifyAddress(User user) {
-		return userDao.modifyAddress(user) > 0 ? true : false;
-	}
-
-	public boolean modifyName(User user) {
-		return userDao.modifyName(user) > 0 ? true : false;
-	}
 	public List<Object> findUserAndGoods(int pageSize,int page){
 		return userDao.findUserAndGoods(pageSize,page);
 	}
 
+	public boolean modifyBalance(User user) {
+		return userDao.modifyBalance(user) > 0 ? true : false;
+	}
+	
+	public boolean modifyUserBaseInfo(User user) {
+		return userDao.modifyUserBaseInfo(user) > 0 ? true : false;
+	}
+	public User findUserByUserid(String userid){
+		return userDao.findUserByUserid(userid);
+	}
+	public boolean updateAddress(User user){
+		return userDao.updateAddress(user);
+	}
+	
+	public Address findAddressById(Long id){
+		return userDao.findAddressById(id);
+	}
 }
+

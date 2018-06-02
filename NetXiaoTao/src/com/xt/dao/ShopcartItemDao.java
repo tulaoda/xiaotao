@@ -61,7 +61,7 @@ public class ShopcartItemDao {
 	}
 	
 	public Shopcart findShopcartByGoodsId(String goodsId){
-		String hql = "from Shopcart sc where sc.cartdet.goodsid=? ";
+		String hql = "from Shopcart sc where sc.c.goodsid=? ";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		Shopcart shopcart=(Shopcart) query.setString(0, goodsId).uniqueResult();
 		return shopcart;

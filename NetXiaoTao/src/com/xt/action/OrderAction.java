@@ -22,6 +22,7 @@ import com.xt.entity.User;
 import com.xt.service.GoodsItemService;
 import com.xt.service.OrderItemService;
 import com.xt.service.ShopcartItemService;
+import com.xt.service.UserService;
 
 @Namespace("/order")
 @ParentPackage("json-default")
@@ -43,6 +44,7 @@ public class OrderAction extends BaseAction{
 	private long goodsid;
 	private long count;
 	private long state;
+	private double allprice;
 	private String receiver;
 	private String phone;
 	private String area;
@@ -56,6 +58,9 @@ public class OrderAction extends BaseAction{
 	
 	@Autowired
 	private ShopcartItemService shopcartItemService;
+	
+	@Autowired
+	private UserService userService;
 	@Action(value="addNewOrderByShopCart",results={
 			@Result(name="success",type="json")
 	})
@@ -167,10 +172,12 @@ public class OrderAction extends BaseAction{
 		OrderMessage orderMessage=null;
 		boolean flag1=true;
 		for(OrderMessage om:list){
+			if(om.getState()==0){
 			Goods g=goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId()));
 			if(flag1){
 			if(g.getStock()-om.getCount()<0){
 				flag1=false;
+			}
 			}
 			}
 		}
@@ -179,6 +186,8 @@ public class OrderAction extends BaseAction{
 				if(state==1){
 				om.setState(state);
 				om.setPay_time(new Timestamp(System.currentTimeMillis()));
+				user.setBalance(userService.findUserByUserid(user.getUserid()).getBalance()-om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice());
+				userService.modifyBalance(user);
 				}else{
 					om.setState(state);
 				}
@@ -187,6 +196,7 @@ public class OrderAction extends BaseAction{
 				g.setStock(g.getStock()-om.getCount());
 				goodsItemService.updateGoodsItem(g);
 			}
+			
 			code="1";
 		}else{
 			code="0";
@@ -458,6 +468,38 @@ public class OrderAction extends BaseAction{
 
 	public void setOrdermessages(List<OrderMessage> ordermessages) {
 		this.ordermessages = ordermessages;
+	}
+
+	public GoodsItemService getGoodsItemService() {
+		return goodsItemService;
+	}
+
+	public void setGoodsItemService(GoodsItemService goodsItemService) {
+		this.goodsItemService = goodsItemService;
+	}
+
+	public ShopcartItemService getShopcartItemService() {
+		return shopcartItemService;
+	}
+
+	public void setShopcartItemService(ShopcartItemService shopcartItemService) {
+		this.shopcartItemService = shopcartItemService;
+	}
+
+	public double getAllprice() {
+		return allprice;
+	}
+
+	public void setAllprice(double allprice) {
+		this.allprice = allprice;
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
 }
