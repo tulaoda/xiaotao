@@ -96,9 +96,8 @@ public class OrderAction extends BaseAction{
 		if(flag){
 			code="1";
 			for (int i = 0; i < goodsIds.length; i++) { 
-				shopcartItemService.removeCartdet(shopcartItemService.findCartdetByGoodsId(goodsIds[i])) ;
+				shopcartItemService.removeShopcartItem(shopcartItemService.findShopcartByGoodsId(goodsIds[i])) ;
 			}
-			shopcartItemService.removeShopcartItem(shopcartItemService.findShopcartByGoodsId(goodsIds[0]));
 			data=new ArrayList<>();
 			data.add(orderItemService.findMaxIdOrderItem());
 		}else{
