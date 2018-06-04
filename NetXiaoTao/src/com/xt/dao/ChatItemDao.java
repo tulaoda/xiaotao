@@ -1,5 +1,7 @@
 package com.xt.dao;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -52,11 +54,11 @@ public class ChatItemDao {
 	 * 查询消息列表
 	 */
 	public List<Chat> findMyMessageList(String s_userid) {
-		String hql = "select * from (select * from t_chat ORDER BY createTime DESC) as a  where a.s_userid=? GROUP BY r_userid ";
+		String hql = "from Chat where s_userid=? GROUP BY r_userid ORDER BY createTime	 ";
 		/*
 		 * session.createSQLQuery(sql)这句话指明了hibernate用的是原生态的sql语句
 		 */
-		return (List<Chat>)sessionFactory.getCurrentSession().createSQLQuery(hql)
+		return (List<Chat>) sessionFactory.getCurrentSession().createQuery(hql)
 				.setString(0, s_userid).list();
 
 	}

@@ -48,7 +48,7 @@ public class WannasItemService {
 		try {
 			int i=0;
 			for(File f:file){
-			FileUtils.copyFile(f, new File("D://thunderDownload",fileFileName.get(i)));
+			FileUtils.copyFile(f, new File("/home/wwwroot/default/web/imgSource",fileFileName.get(i)));
 			i++;
 			}
 		} catch (IOException e) {

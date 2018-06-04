@@ -60,7 +60,7 @@ public class GoodsItemService {
 			System.out.println(fileFileName.size());
 			int i=0;
 			for(File f:file){
-			FileUtils.copyFile(f, new File("D://thunderDownload",fileFileName.get(i)));
+			FileUtils.copyFile(f, new File("/home/wwwroot/default/web/imgSource",fileFileName.get(i)));
 			i++;
 			}
 		} catch (IOException e) {
@@ -69,7 +69,7 @@ public class GoodsItemService {
 		List <GoodsImg>GoodsImgs=new ArrayList<GoodsImg>();
 		for(String fn:fileFileName){
 			GoodsImg goodsImg=new GoodsImg();
-			goodsImg.setImage("http://192.168.0.16:8080/thunderDownload/"+fn);
+			goodsImg.setImage("http://www.tulaoda.top/web/imgSource/"+fn);
 			goodsImg.setGoodsid(goodsItemDao.findMaxIdGoodsItem().getId()+1);
 			GoodsImgs.add(goodsImg);
 			if(goodsItemDao.findMaxIdGoodsItem()==null){
