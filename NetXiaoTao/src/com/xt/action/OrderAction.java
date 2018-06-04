@@ -84,11 +84,12 @@ public class OrderAction extends BaseAction{
 			orderMessage.setGoodsId(goodsIds[i]);
 			orderMessage.setCount( Long.parseLong(Counts[i]));
 			orderMessage.setState((long) 0);
-			orderMessage.setReceiver(receiver);
-			orderMessage.setPhone(phone);
-			orderMessage.setArea(area);
-			orderMessage.setAddress(address);
-			orderMessage.setPostalcode(postalcode);
+			User u=userService.findUserByUserid(user.getUserid());
+			orderMessage.setReceiver(u.getAddress().getReceiver());
+			orderMessage.setPhone(u.getAddress().getPhone());
+			orderMessage.setArea(u.getAddress().getArea());
+			orderMessage.setAddress(u.getAddress().getAddress());
+			orderMessage.setPostalcode(u.getAddress().getPostalcode());
 			list.add(orderMessage);
 		}
 		order.setOrderMessage(list);
@@ -133,11 +134,12 @@ public class OrderAction extends BaseAction{
 			orderMessage.setGoodsId(String.valueOf(goodsid));
 			orderMessage.setCount(count);
 			orderMessage.setState((long) 0);
-			orderMessage.setReceiver(receiver);
-			orderMessage.setPhone(phone);
-			orderMessage.setArea(area);
-			orderMessage.setAddress(address);
-			orderMessage.setPostalcode(postalcode);
+			User u=userService.findUserByUserid(user.getUserid());
+			orderMessage.setReceiver(u.getAddress().getReceiver());
+			orderMessage.setPhone(u.getAddress().getPhone());
+			orderMessage.setArea(u.getAddress().getArea());
+			orderMessage.setAddress(u.getAddress().getAddress());
+			orderMessage.setPostalcode(u.getAddress().getPostalcode());
 			list.add(orderMessage);
 		order.setOrderMessage(list);
 		boolean flag=orderItemService.addNewOrderByShopCart(order);

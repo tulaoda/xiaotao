@@ -107,7 +107,8 @@ public class UserAction extends BaseAction {
 	@Action(value = "addAddress", results = { @Result(name = "success", type = "json") })
 	public String addAddress() {
 		user=userService.findUserByUserid(user.getUserid());
-		user.getAddresss().add(address);
+		address.setUserid(user.getUserid());
+		user.setAddress(address);
 		if (userService.updateAddress(user)) {
 			code = "1";
 		} else {
@@ -118,16 +119,9 @@ public class UserAction extends BaseAction {
 	@Action(value = "updateAddress", results = { @Result(name = "success", type = "json") })
 	public String updateAddress() {
 		user=userService.findUserByUserid(user.getUserid());
-	    Address ads=userService.findAddressById(address.getId());
-	    int i=0;
-	    for(int j=0;j<user.getAddresss().size();j++){
-	    	if(user.getAddresss().get(j).getId()==ads.getId()){
-	    		i=j;
-	    	}
-	    }
-	    address.setId(ads.getId());
-	    address.setUserid(ads.getUserid());
-		user.getAddresss().set(i,address);
+		address.setUserid(user.getUserid());
+		address.setId(user.getAddress().getId());
+		user.setAddress(address);
 		if (userService.updateAddress(user)) {
 			code = "1";
 		} else {
@@ -138,7 +132,8 @@ public class UserAction extends BaseAction {
 	@Action(value = "deleteAddress", results = { @Result(name = "success", type = "json") })
 	public String deleteAddress() {
 		user=userService.findUserByUserid(user.getUserid());
-		user.getAddresss().remove(address);
+		userService.removeAddress(user.getAddress());
+		user.setAddress(address);
 		if (userService.updateAddress(user)) {
 			code = "1";
 		} else {

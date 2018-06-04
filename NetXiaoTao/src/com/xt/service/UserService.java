@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.xt.dao.UserDao;
 import com.xt.entity.Address;
+import com.xt.entity.Chat;
 import com.xt.entity.User;
 
 @Transactional
@@ -58,6 +59,11 @@ public class UserService {
 	
 	public Address findAddressById(Long id){
 		return userDao.findAddressById(id);
+	}
+	
+	public boolean removeAddress(Address a){
+		userDao.removeAddress(a);
+		return true;
 	}
 }
 

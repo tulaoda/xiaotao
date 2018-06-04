@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.xt.entity.Address;
+import com.xt.entity.Chat;
 import com.xt.entity.Goods;
 import com.xt.entity.User;
 
@@ -94,5 +95,9 @@ public class UserDao {
 		String hql="from Address where id=?";
 		return	(Address) sessionFactory.getCurrentSession().createQuery(hql)
 				.setLong(0, id).uniqueResult(); 
+	}
+	
+	public void removeAddress(Address a){
+		sessionFactory.getCurrentSession().delete(a);
 	}
 }

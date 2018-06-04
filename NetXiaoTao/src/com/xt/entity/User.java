@@ -11,7 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
@@ -24,18 +26,15 @@ public class User {
 	@Column(name = "userid")
 	private String userid;
 
-	@OneToMany(targetEntity=Address.class,cascade=CascadeType.ALL)  
-	  @Fetch(FetchMode.JOIN)  
-	  //updatable=false很关键，如果没有它，在级联删除的时候就会报错(反转的问题)  
-	  @JoinColumn(name="userid",updatable=false)  
-	private List<Address> addresss = new ArrayList<Address>();
-	
-	public List<Address> getAddresss() {
-		return addresss;
+	@OneToOne(targetEntity=Address.class, cascade=CascadeType.ALL)
+	@JoinColumn(name="uid",unique=true)
+	private Address address;
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setAddresss(List<Address> addresss) {
-		this.addresss = addresss;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	@Column(name = "nickname", length = 20)

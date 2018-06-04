@@ -15,7 +15,7 @@ public class Address {
 	  @Column(name = "id")
 	  private Long id;
 	  
-	  @Column(name = "userid")
+	  @Column(name = "userid" ,length=45)
 	  private String userid;
 	  
 	    @Column(name = "receiver", length = 10)
