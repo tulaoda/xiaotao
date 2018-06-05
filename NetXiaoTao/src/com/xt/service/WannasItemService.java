@@ -57,7 +57,7 @@ public class WannasItemService {
 		List <WannaImg>WannaImgs=new ArrayList<WannaImg>();
 		for(String fn:fileFileName){
 			WannaImg wannaImg=new WannaImg();
-			wannaImg.setImage("http://192.168.0.16:8080/thunderDownload/"+fn);
+			wannaImg.setImage("http://www.tulaoda.top/web/imgSource/"+fn);
 			if(wannasItemDao.findMaxIdWannasItem()==null){
 				wannaImg.setWannaid((long) 1);
 				wannas.setId((long) 1);
