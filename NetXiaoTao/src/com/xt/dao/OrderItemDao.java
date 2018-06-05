@@ -44,7 +44,11 @@ public class OrderItemDao {
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		return query.list();
 	}*/
-	
+	public List<Object> findAllMyOrderByOMID(Long omid){
+		String hql="from Order o,Goods g,User u,OrderMessage om where om.id=? and  o.id=om.orderId and om.goodsId=g.id and g.userid=u.userid";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql).setLong(0, omid);
+		return query.list();
+	}
 	public Order findMaxIdOrderItem(){
 		String hql = "from Order where id=(select max(id) from Order) ";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);

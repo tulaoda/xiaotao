@@ -39,6 +39,7 @@ public class OrderAction extends BaseAction{
 	private List<OrderMessage> ordermessages=new ArrayList<OrderMessage>();
 	private User user;
 	private Order orderItem;
+	private OrderMessage orderMessage;
 	private String goodsids;
 	private String counts;
 	private long goodsid;
@@ -247,20 +248,26 @@ public class OrderAction extends BaseAction{
 		}
 		return SUCCESS;
 	}
-	/*@Action(value="findAllOrder",results={
+	@Action(value="findAllMyOrderByOMID",results={
 			@Result(name="success",type="json")
 	})
-	public String findAllOrder(){
-		data=orderItemService.findAllOrder(pageSize,page);
+	public String findAllMyOrderByOMID(){
+		data=orderItemService.findAllMyOrderByOMID(orderMessage.getId());
 		if(data!=null){
+			Iterator it=data.iterator();
+			while(it.hasNext()){
+			Object[]obj=(Object[])it.next();
+			orders.add((Order) obj[0]);
+			goods.add((Goods) obj[1]);
+			users.add((User) obj[2]);
+			ordermessages.add((OrderMessage) obj[3]);
+			}
 			code="1";
 		}else{
 			code="0";
 		}
 		return SUCCESS;
-	}*/
-
-	
+	}
 	public String getCode() {
 		return code;
 	}
@@ -495,12 +502,13 @@ public class OrderAction extends BaseAction{
 		this.allprice = allprice;
 	}
 
-	public UserService getUserService() {
-		return userService;
+	public OrderMessage getOrderMessage() {
+		return orderMessage;
 	}
 
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	public void setOrderMessage(OrderMessage orderMessage) {
+		this.orderMessage = orderMessage;
 	}
 
+	
 }

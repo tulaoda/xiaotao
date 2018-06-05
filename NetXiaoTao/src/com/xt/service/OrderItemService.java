@@ -31,6 +31,10 @@ public class OrderItemService {
 		return orderItemDao.findAllMyOrderByStateForPage(userid,state,pageSize,page);
 
 	}
+	public List<Object> findAllMyOrderByOMID(Long omid) {
+		return orderItemDao.findAllMyOrderByOMID(omid);
+
+	}
 	public Order findMaxIdOrderItem(){
 		return orderItemDao.findMaxIdOrderItem();
 	}
