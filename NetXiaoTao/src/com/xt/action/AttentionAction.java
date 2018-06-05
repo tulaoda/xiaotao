@@ -75,24 +75,24 @@ public class AttentionAction extends BaseAction{
 		return SUCCESS;
 	}
 	
-	@Action(value="cancelAttention",results={
+	@Action(value="addNewAttentionorUpdateState",results={
 			@Result(name="success",type="json")
 	})
-	public String cancelAttention(){
-		attention.setState((long) 0);
-		boolean flag=attentionService.cancelAttention(attention);
-		if(flag){
-			code="1";
-		}else{
-			code="0";
+	public String addNewAttentionorUpdateState(){
+		Attention a=attentionService.findAttentionByTwoId(attention.getA_userid(),attention.getT_userid());
+		if(a!=null){
+			if(a.getState()==0){
+			a.setState((long) 1);
+			}else{
+			a.setState((long) 0);	
+			}
+			boolean flag1=attentionService.updateAttentionState(attention);
+			if(flag1){
+				code="1";
+			}else{
+				code="0";
 		}
-		return SUCCESS;
-	}
-	
-	@Action(value="addNewAttention",results={
-			@Result(name="success",type="json")
-	})
-	public String addNewAttention(){
+		}
 		attention.setState((long) 1);
 		boolean flag=attentionService.addNewAttention(attention);
 		if(flag){

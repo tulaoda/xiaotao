@@ -28,7 +28,7 @@ public class AttentionDao {
 		String hql="from Attention where a_userid=? and String t_userid";
 		return (Attention) sessionFactory.getCurrentSession().createQuery(hql).setString(0, a_userid).setString(1, t_userid).uniqueResult();
 	}
-	public void cancelAttention(Attention a){
+	public void updateAttentionState(Attention a){
 		sessionFactory.getCurrentSession().update(a);
 	}
 	

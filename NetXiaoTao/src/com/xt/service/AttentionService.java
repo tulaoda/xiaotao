@@ -33,8 +33,11 @@ public class AttentionService {
 		return attentionDao.findAttentionById(id);
 	}
 	
-	public boolean cancelAttention(Attention a){
-		attentionDao.cancelAttention(a);
+	public Attention findAttentionByTwoId(String a_userid,String t_userid){
+		return attentionDao.findAttentionByTwoId(a_userid,t_userid);
+	}
+	public boolean updateAttentionState(Attention a){
+		attentionDao.updateAttentionState(a);
 		return true;
 	}
 	public boolean addNewAttention(Attention a){
