@@ -30,7 +30,7 @@ public class GoodsAction extends BaseAction {
 	private List<String> fileFileName;
 	private String code;
 	private List<Goods> data;
-	private int count;
+	private Long stock;
 	private int pageSize;
 	private int page;
 	public Goods goodsItem;
@@ -44,6 +44,18 @@ public class GoodsAction extends BaseAction {
 	@Action(value = "findAllGoodsItem", results = { @Result(name = "success", type = "json") })
 	public String findAllGoodsItem() {
 		data = goodsItemService.findGoodsItemForPage(pageSize, page);
+		if (data != null) {
+			code = "1";
+		} else {
+			code = "0";
+		}
+		return SUCCESS;
+	}
+
+	@Action(value = "findMyAllGoods", results = { @Result(name = "success", type = "json") })
+	public String findMyAllGoods() {
+		data = goodsItemService.findMyAllGoods(goodsItem.getUserid(), pageSize,
+				page);
 		if (data != null) {
 			code = "1";
 		} else {
@@ -105,10 +117,10 @@ public class GoodsAction extends BaseAction {
 		return SUCCESS;
 	}
 
-
 	@Action(value = "removeGoodsItem", results = { @Result(name = "success", type = "json") })
 	public String removeGoodsItem() {
-		boolean flag = goodsItemService.removeGoodsItem(goodsItemService.findGoodsItemById(goodsItem.getId()));
+		boolean flag = goodsItemService.removeGoodsItem(goodsItemService
+				.findGoodsItemById(goodsItem.getId()));
 		if (flag) {
 			code = "1";
 		} else {
@@ -116,9 +128,11 @@ public class GoodsAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
-	@Action(value = "modifyStock", results = { @Result(name = "success", type = "json")})
+
+	@Action(value = "modifyStock", results = { @Result(name = "success", type = "json") })
 	public String modifyStock() {
-		goodsItem.setStock(goodsItemService.findGoodsItemById(goodsItem.getId()).getStock()+count);
+		goodsItem = goodsItemService.findGoodsItemById(goodsItem.getId());
+		goodsItem.setStock(stock);
 		if (goodsItemService.updateGoodsItem(goodsItem)) {
 			code = "1";
 		} else {
@@ -126,8 +140,8 @@ public class GoodsAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
-	
-	@Action(value = "modifyGoodsItemState", results = { @Result(name = "success", type = "json")})
+
+	@Action(value = "modifyGoodsItemState", results = { @Result(name = "success", type = "json") })
 	public String modifyGoodsItemState() {
 		goodsItem = goodsItemService.findGoodsItemById(goodsItem.getId());
 		goodsItem.setState(state);
@@ -138,6 +152,7 @@ public class GoodsAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
+
 	@Action(value = "addNewGoodsItem", results = { @Result(name = "success", type = "json") })
 	public String addNewGoodsItem() {
 		boolean flag = goodsItemService.addNewGoodsItem(goodsItem, file,
@@ -251,11 +266,12 @@ public class GoodsAction extends BaseAction {
 		this.goods = goods;
 	}
 
-	public int getCount() {
-		return count;
+	public Long getStock() {
+		return stock;
 	}
-	public void setCount(int count) {
-		this.count = count;
+
+	public void setStock(Long stock) {
+		this.stock = stock;
 	}
 
 	public Long getState() {
