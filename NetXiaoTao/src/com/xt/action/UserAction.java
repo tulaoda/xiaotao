@@ -1,5 +1,6 @@
 package com.xt.action;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 
 import com.xt.base.BaseAction;
 import com.xt.entity.Address;
+import com.xt.entity.Bill;
 import com.xt.entity.Goods;
 import com.xt.entity.User;
 import com.xt.entity.Wannas;
@@ -24,7 +26,7 @@ import com.xt.service.UserService;
 public class UserAction extends BaseAction {
 
 	public User user;
-
+    private Bill bill;
 	@Autowired
 	private UserService userService;
 
@@ -35,8 +37,9 @@ public class UserAction extends BaseAction {
 	private int page;
 	private double recharge_amount;
 	private Address address;
-	private List<User> users=new ArrayList<User>();;
-	private List<Goods> goods=new ArrayList<Goods>();;
+	private List<User> users=new ArrayList<User>();
+	private List<Goods> goods=new ArrayList<Goods>();
+	private List<Bill> bills;
 	@Action(value = "login", results = { @Result(name = "success", type = "json") })
 	public String login() {
 		loginedUser = userService.login(user);
@@ -85,8 +88,20 @@ public class UserAction extends BaseAction {
 	
 	@Action(value = "modifyBalance", results = { @Result(name = "success", type = "json") })
 	public String modifyBalance() {
-		user.setBalance(userService.findUserByUserid(user.getUserid()).getBalance()+recharge_amount);
+		if(bill.getState()==2){
+			bill.setPrice(-bill.getPrice());
+		}
+		user.setBalance(userService.findUserByUserid(user.getUserid()).getBalance()+bill.getPrice());
 		if (userService.modifyBalance(user)) {
+			if(bill.getState()==null){
+				bill.setState((long) 0);
+			}
+			bill.setUserid(user.getUserid());
+			if(bill.getState()==2){
+				bill.setPrice(-bill.getPrice());
+			}
+			bill.setCreatetime(new Timestamp(System.currentTimeMillis()));
+			userService.addBill(bill);
 			code = "1";
 		} else {
 			code = "0";
@@ -151,6 +166,18 @@ public class UserAction extends BaseAction {
 			users.add((User) obj[0]);
 			goods.add((Goods) obj[1]);
 			}
+			code = "1";
+		} else {
+			code = "0";
+		}
+		return SUCCESS;
+	}
+
+	@Action(value = "findBillByUseridForPage", results = { @Result(name = "success", type = "json") })
+	public String findBillByUseridForPage() {
+		bills = userService.findBillByUseridForPage(
+				user.getUserid(), pageSize, page);
+		if (bills != null) {
 			code = "1";
 		} else {
 			code = "0";
@@ -240,6 +267,22 @@ public class UserAction extends BaseAction {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public Bill getBill() {
+		return bill;
+	}
+
+	public void setBill(Bill bill) {
+		this.bill = bill;
+	}
+
+	public List<Bill> getBills() {
+		return bills;
+	}
+
+	public void setBills(List<Bill> bills) {
+		this.bills = bills;
 	}
 
 }

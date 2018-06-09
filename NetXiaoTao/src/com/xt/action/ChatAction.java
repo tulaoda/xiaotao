@@ -20,6 +20,7 @@ import com.xt.entity.Chat;
 import com.xt.entity.User;
 import com.xt.entity.Wannas;
 import com.xt.service.ChatItemService;
+import com.xt.service.UserService;
 import com.xt.service.WannasItemService;
 
 @Namespace("/chat")
@@ -34,9 +35,12 @@ public class ChatAction extends BaseAction {
 	public Chat chatItem;
 	private String s_userid;
 	private String r_userid;
+	private List<User> users=new ArrayList<User>();
 	@Autowired
 	private ChatItemService chatItemService;
 
+	@Autowired
+	private UserService userService;
 	@Action(value = "findAllMyChatItem", results = { @Result(name = "success", type = "json") })
 	public String findAllMyChatItem() {
 		data = chatItemService.findAllMyChatItem(s_userid, r_userid);
@@ -52,6 +56,11 @@ public class ChatAction extends BaseAction {
 	public String findMyMessageList() {
 		data = (List<Chat>) chatItemService.findMyMessageList(s_userid);
 		if (data != null) {
+			User u=null;
+			for(Chat c:data){
+				u=userService.findUserByUserid(c.getR_userid());
+			}
+			users.add(u);
 			code = "1";
 		} else {
 			code = "0";
@@ -153,6 +162,14 @@ public class ChatAction extends BaseAction {
 
 	public void setR_userid(String r_userid) {
 		this.r_userid = r_userid;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 }

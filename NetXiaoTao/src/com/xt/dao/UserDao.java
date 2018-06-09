@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.xt.entity.Address;
+import com.xt.entity.Bill;
 import com.xt.entity.Chat;
 import com.xt.entity.Goods;
+import com.xt.entity.RechargeOrder;
 import com.xt.entity.User;
 
 @Repository
@@ -99,5 +101,15 @@ public class UserDao {
 	
 	public void removeAddress(Address a){
 		sessionFactory.getCurrentSession().delete(a);
+	}
+	
+	public void addBill(Bill b){
+		sessionFactory.getCurrentSession().save(b);
+	}
+	
+	public List<Bill> findBillByUseridForPage(String userid,int pageSize,int page){
+		String hql="from Bill where userid=?";
+		return sessionFactory.getCurrentSession().createQuery(hql).setString(0, userid).setFirstResult((page-1)*pageSize)
+				.setMaxResults(pageSize).list();
 	}
 }

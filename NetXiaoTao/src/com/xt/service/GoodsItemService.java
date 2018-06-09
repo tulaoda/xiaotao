@@ -75,6 +75,7 @@ public class GoodsItemService {
 			if(goodsItemDao.findMaxIdGoodsItem()==null){
 				goods.setId((long) 1);
 			}
+			goods.setState((long) 1);
 			goods.setId(goodsItemDao.findMaxIdGoodsItem().getId()+1);
 		    goods.setGoodsImg(GoodsImgs);
 		}

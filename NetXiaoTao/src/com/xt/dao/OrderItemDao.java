@@ -39,6 +39,14 @@ public class OrderItemDao {
 		.setMaxResults(pageSize);
 		return query.list();
 	}
+	
+	public List<Object> findMyOrderByStateForPage(String userid,Long state,int pageSize,int page){
+		String hql="from Order o,Goods g,User u,OrderMessage om where g.userid=? and om.state=? and  o.id=om.orderId and om.goodsId=g.id and g.userid=u.userid";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setString(0, userid).setLong(1, state).setFirstResult((page-1)*pageSize)
+		.setMaxResults(pageSize);
+		return query.list();
+	}
 	/*public List findAllOrder() {
 		String hql="from OrderItem o,GoodsItem g where o.goods_id=g.id";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);

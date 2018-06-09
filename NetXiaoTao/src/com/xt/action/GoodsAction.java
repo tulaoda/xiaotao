@@ -34,6 +34,7 @@ public class GoodsAction extends BaseAction {
 	private int pageSize;
 	private int page;
 	public Goods goodsItem;
+	private Long state;
 	@Autowired
 	private GoodsItemService goodsItemService;
 	private List<Object> datas;
@@ -107,7 +108,7 @@ public class GoodsAction extends BaseAction {
 
 	@Action(value = "removeGoodsItem", results = { @Result(name = "success", type = "json") })
 	public String removeGoodsItem() {
-		boolean flag = goodsItemService.removeGoodsItem(goodsItem);
+		boolean flag = goodsItemService.removeGoodsItem(goodsItemService.findGoodsItemById(goodsItem.getId()));
 		if (flag) {
 			code = "1";
 		} else {
@@ -125,7 +126,18 @@ public class GoodsAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
-
+	
+	@Action(value = "modifyGoodsItemState", results = { @Result(name = "success", type = "json")})
+	public String modifyGoodsItemState() {
+		goodsItem = goodsItemService.findGoodsItemById(goodsItem.getId());
+		goodsItem.setState(state);
+		if (goodsItemService.updateGoodsItem(goodsItem)) {
+			code = "1";
+		} else {
+			code = "0";
+		}
+		return SUCCESS;
+	}
 	@Action(value = "addNewGoodsItem", results = { @Result(name = "success", type = "json") })
 	public String addNewGoodsItem() {
 		boolean flag = goodsItemService.addNewGoodsItem(goodsItem, file,
@@ -244,6 +256,14 @@ public class GoodsAction extends BaseAction {
 	}
 	public void setCount(int count) {
 		this.count = count;
+	}
+
+	public Long getState() {
+		return state;
+	}
+
+	public void setState(Long state) {
+		this.state = state;
 	}
 
 }

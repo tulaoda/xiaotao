@@ -19,7 +19,7 @@ public class CollectionDao {
 	
 	
 	public List<Object> findAllMyCollection(String userid){
-		String hql="from Collection c,Goods g where c.userid=? and c.goodsId=g.id";
+		String hql="from Collection c,Goods g where c.userid=? and c.goodsId=g.id and g.state=1";
 		return sessionFactory.getCurrentSession().createQuery(hql).setString(0, userid).list();
 	}
 	
@@ -35,7 +35,7 @@ public class CollectionDao {
 	
 
 	public List<Object> findAllMyCollectionForPage(String userid,int pageSize,int page){
-		String hql="from Collection c,Goods g where c.userid=? and c.goodsId=g.id";
+		String hql="from Collection c,Goods g where c.userid=? and c.goodsId=g.id and g.state=1";
 		return	sessionFactory.getCurrentSession().createQuery(hql)
 		.setString(0, userid)
 		.setFirstResult((page-1)*pageSize)

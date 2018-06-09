@@ -8,7 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.xt.dao.UserDao;
 import com.xt.entity.Address;
+import com.xt.entity.Bill;
 import com.xt.entity.Chat;
+import com.xt.entity.Goods;
+import com.xt.entity.RechargeOrder;
 import com.xt.entity.User;
 
 @Transactional
@@ -64,6 +67,15 @@ public class UserService {
 	public boolean removeAddress(Address a){
 		userDao.removeAddress(a);
 		return true;
+	}
+	
+	public boolean addBill(Bill b){
+		userDao.addBill(b);;
+		return true;
+	}
+	
+	public List<Bill> findBillByUseridForPage(String userid,int pageSize,int page){
+		return userDao.findBillByUseridForPage(userid,pageSize,page);
 	}
 }
 
