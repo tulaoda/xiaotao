@@ -34,7 +34,11 @@ public class ChatItemService {
 		return chatItemDao.findMaxIdChatItem();
 	}
 
-	public List<Chat> findMyMessageList(String s_userid) {
-		return chatItemDao.findMyMessageList(s_userid);
+	public List<Chat> findMySMessageList(String s_userid) {
+		return chatItemDao.findMySMessageList(s_userid);
+	}
+	
+	public List<Chat> findMyRMessageList(String r_userid) {
+		return chatItemDao.findMyRMessageList(r_userid);
 	}
 }

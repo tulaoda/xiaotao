@@ -51,16 +51,25 @@ public class ChatItemDao {
 	}
 
 	/*
-	 * 查询消息列表
+	 * 鏌ヨ娑堟伅鍒楄〃
 	 */
-	public List<Chat> findMyMessageList(String s_userid) {
+	public List<Chat> findMySMessageList(String s_userid) {
 		String hql = "from Chat where s_userid=? GROUP BY r_userid ORDER BY createTime	 ";
 		/*
-		 * session.createSQLQuery(sql)这句话指明了hibernate用的是原生态的sql语句
+		 * session.createSQLQuery(sql)杩欏彞璇濇寚鏄庝簡hibernate鐢ㄧ殑鏄師鐢熸�鐨剆ql璇彞
 		 */
 		return (List<Chat>) sessionFactory.getCurrentSession().createQuery(hql)
 				.setString(0, s_userid).list();
 
 	}
 
+	public List<Chat> findMyRMessageList(String r_userid) {
+		String hql = "from Chat where r_userid=? GROUP BY r_userid ORDER BY createTime	 ";
+		/*
+		 * session.createSQLQuery(sql)杩欏彞璇濇寚鏄庝簡hibernate鐢ㄧ殑鏄師鐢熸�鐨剆ql璇彞
+		 */
+		return (List<Chat>) sessionFactory.getCurrentSession().createQuery(hql)
+				.setString(0, r_userid).list();
+
+	}
 }

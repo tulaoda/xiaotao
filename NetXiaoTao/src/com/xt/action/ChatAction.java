@@ -30,6 +30,8 @@ public class ChatAction extends BaseAction {
 
 	private String code;
 	private List<Chat> data;
+	private List<Chat> sChat;
+	private List<Chat> RChat;
 	private int pageSize;
 	private int page;
 	public Chat chatItem;
@@ -54,16 +56,54 @@ public class ChatAction extends BaseAction {
 
 	@Action(value = "findMyMessageList", results = { @Result(name = "success", type = "json") })
 	public String findMyMessageList() {
-		data = (List<Chat>) chatItemService.findMyMessageList(s_userid);
-		if (data != null) {
+		sChat = (List<Chat>) chatItemService.findMySMessageList(s_userid);
+		RChat = (List<Chat>) chatItemService.findMyRMessageList(s_userid);
+		if (sChat != null && RChat!=null) {
 			User u=null;
+			List<Chat> chats=new ArrayList<Chat>();
+			for(int i=0;i<RChat.size();i++){
+			for(Chat c:sChat){
+				if(c.getId()==RChat.get(i).getId()){
+					chats.add(RChat.get(i));
+				}
+			}
+			}
+			for(Chat c:chats){
+				RChat.remove(c);
+			}
+			for(Chat c:sChat){
+				u=userService.findUserByUserid(c.getR_userid());
+				users.add(u);
+			}
+			sChat.addAll(RChat);
+			data=sChat;
+			
+			for(Chat c:RChat){
+				u=userService.findUserByUserid(c.getS_userid());
+				users.add(u);
+			}
+			
+			code = "1";
+		}else if (sChat != null && RChat==null) {
+			User u=null;
+			data=sChat;
 			for(Chat c:data){
 				u=userService.findUserByUserid(c.getR_userid());
 				users.add(u);
 			}
 			
 			code = "1";
-		} else {
+		}else if (sChat == null && RChat!=null) {
+			User u=null;
+			data=RChat;
+			for(Chat c:data){
+				u=userService.findUserByUserid(c.getS_userid());
+				users.add(u);
+			}
+			
+			code = "1";
+		
+		}else {
 			code = "0";
 		}
 		return SUCCESS;
