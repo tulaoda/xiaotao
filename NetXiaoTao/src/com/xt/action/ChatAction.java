@@ -59,8 +59,9 @@ public class ChatAction extends BaseAction {
 			User u=null;
 			for(Chat c:data){
 				u=userService.findUserByUserid(c.getR_userid());
+				users.add(u);
 			}
-			users.add(u);
+			
 			code = "1";
 		} else {
 			code = "0";

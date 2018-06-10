@@ -195,7 +195,7 @@ public class OrderAction extends BaseAction{
 			    u.setBalance(u.getBalance()+om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice());
 				userService.modifyBalance(u);
 				allprice+=om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice();
-				Bill bill=null;
+				Bill bill=new Bill();
 				bill.setPrice(allprice);
 				bill.setState((long) 0);
 				bill.setCreatetime(new Timestamp(System.currentTimeMillis()));
@@ -205,7 +205,7 @@ public class OrderAction extends BaseAction{
 				orderItemService.updateOrderItemState(om);
 				
 			}
-			Bill b=null;
+			Bill b=new Bill();
 			b.setCreatetime(new Timestamp(System.currentTimeMillis()));
 			b.setPrice(-allprice);
 			b.setState((long) 1);
