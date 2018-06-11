@@ -32,6 +32,7 @@ public class CollectionAction extends BaseAction{
 	private int pageSize;
 	private int page;
 	private User user;
+	private Goods goodsItem;
 	public Collection collection;
 	private List<Goods> goods=new ArrayList<Goods>();
 	private List<Collection> cs=new ArrayList<Collection>();
@@ -76,6 +77,7 @@ public class CollectionAction extends BaseAction{
 			@Result(name="success",type="json")
 	})
 	public String removeCollection(){
+		collection=collectionService.findCollectionByGoodsId(goodsItem.getId());
 		boolean flag=collectionService.removeCollection(collection);
 		if(flag){
 			code="1";
@@ -154,6 +156,14 @@ public class CollectionAction extends BaseAction{
 
 	public void setCs(List<Collection> cs) {
 		this.cs = cs;
+	}
+
+	public Goods getGoodsItem() {
+		return goodsItem;
+	}
+
+	public void setGoodsItem(Goods goodsItem) {
+		this.goodsItem = goodsItem;
 	}
 
 	/*@Action(value = "addFileAction",params={"savePath","/upload"},
