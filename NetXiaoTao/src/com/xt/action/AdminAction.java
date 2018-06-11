@@ -157,5 +157,13 @@ public class AdminAction extends BaseAction {
 	public void setGoods(List<Goods> goods) {
 		this.goods = goods;
 	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 	
 }
