@@ -13,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
@@ -47,9 +46,6 @@ public class Goods {
   @Column(name = "proxy", length = 1)
   private Long proxy;
   
-  @Column(name = "commission", length = 1)
-  private Long commission;
-  
   @Column(name = "stock", length = 11)
   private Long stock;
   
@@ -67,21 +63,12 @@ public class Goods {
   public void setGoodsImg(List<GoodsImg> goodsImg) {  
   this.goodsImg = goodsImg;  
   }  
-  @OneToOne(targetEntity=Proxy.class,cascade=CascadeType.ALL)
-  private Proxy p;
-  public void setP(Proxy p) {
-	this.p = p;
-}
-  
-public Proxy getP() {
-	return p;
-}
-public Goods() {
+  public Goods() {
 	super();
 }
 
 public Goods(Long id, Long l_class, String content,String description, Double price,
-		String userid, Long state, Long proxy,Long commission, Long stock, Long postage) {
+		String userid, Long state, Long proxy, Long stock, Long postage) {
 	super();
 	this.id = id;
 	this.l_class = l_class;
@@ -91,7 +78,6 @@ public Goods(Long id, Long l_class, String content,String description, Double pr
 	this.userid = userid;
 	this.state = state;
 	this.proxy = proxy;
-	this.commission=commission;
 	this.stock = stock;
 	this.postage = postage;
 }
@@ -158,13 +144,7 @@ public Double getPrice() {
     this.proxy = proxy;
   }
 
-  public Long getCommission() {
-	return commission;
-}
-public void setCommission(Long commission) {
-	this.commission = commission;
-}
-public Long getStock() {
+  public Long getStock() {
     return stock;
   }
 

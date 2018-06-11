@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.xt.entity.Goods;
-import com.xt.entity.Proxy;
 
 @Repository
 public class GoodsItemDao {
@@ -94,38 +93,6 @@ public class GoodsItemDao {
 				.setString("content", "%" + content + "%")
 				.setFirstResult((page - 1) * pageSize).setMaxResults(pageSize)
 				.list();
-
-	}
-	public void addNewProxy(Goods goods) {
-		sessionFactory.getCurrentSession().update(goods);
-	}
-	
-	public void removeProxy(Proxy proxy) {
-		sessionFactory.getCurrentSession().delete(proxy);
-	}
-	
-	public Proxy findMaxIdProxy(){
-		String hql = "from Proxy where id=(select max(id) from Proxy)";
-		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		Proxy p=(Proxy) query.uniqueResult();
-		return p;
-	}
-	
-	public List<Goods> findGoodsItemByProxyUseridForPage(String userid,
-			Long proxy,int pageSize, int page) {
-		String hql = "from Goods g where g.p.userid=? and g.proxy=? and g.state=1";
-		return sessionFactory.getCurrentSession().createQuery(hql)
-				.setString(0, userid).setLong(1, proxy).setFirstResult((page - 1) * pageSize)
-				.setMaxResults(pageSize).list();
-
-	}
-	
-	public List<Goods> findGoodsItemByProxyForPage(
-			Long proxy,int pageSize, int page) {
-		String hql = "from Goods g where g.proxy=? and g.state=1";
-		return sessionFactory.getCurrentSession().createQuery(hql)
-				.setLong(0, proxy).setFirstResult((page - 1) * pageSize)
-				.setMaxResults(pageSize).list();
 
 	}
 }

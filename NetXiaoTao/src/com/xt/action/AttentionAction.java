@@ -34,7 +34,7 @@ public class AttentionAction extends BaseAction{
 	private int pageSize;
 	private int page;
 	private User user;
-	public Attention attention=new Attention();
+	public Attention attention;
 	private List<Goods> goods=new ArrayList<Goods>();
 	private List<Attention> as=new ArrayList<Attention>();
 	private List<User> us=new ArrayList<User>();
@@ -47,24 +47,6 @@ public class AttentionAction extends BaseAction{
 	})
 	public String findAllMyAttentionForPage(){
 		data=attentionService.findAllMyAttentionForPage(user.getUserid(),pageSize,page);
-		if(data!=null){
-			Iterator it=data.iterator();
-			while(it.hasNext()){
-			Object[]obj=(Object[])it.next();
-			as.add((Attention) obj[0]);
-			us.add((User) obj[1]);
-			}
-			code="1";
-		}else{
-			code="0";
-		}
-		return SUCCESS;
-	}
-	@Action(value="findAllOfMyAttentionForPage",results={
-			@Result(name="success",type="json")
-	})
-	public String findAllOfMyAttentionForPage(){
-		data=attentionService.findAllOfMyAttentionForPage(user.getUserid(),pageSize,page);
 		if(data!=null){
 			Iterator it=data.iterator();
 			while(it.hasNext()){
@@ -104,13 +86,13 @@ public class AttentionAction extends BaseAction{
 			}else{
 			a.setState((long) 0);	
 			}
-			boolean flag1=attentionService.updateAttentionState(a);
+			boolean flag1=attentionService.updateAttentionState(attention);
 			if(flag1){
 				code="1";
 			}else{
 				code="0";
 		}
-		}else{
+		}
 		attention.setState((long) 1);
 		boolean flag=attentionService.addNewAttention(attention);
 		if(flag){
@@ -119,7 +101,6 @@ public class AttentionAction extends BaseAction{
 			data.add(attentionService.findMaxIdAttention());
 		}else{
 			code="0";
-		}
 		}
 		return SUCCESS;
 	}

@@ -15,10 +15,6 @@ public class ChatItemService {
 
 	@Autowired
 	private ChatItemDao chatItemDao;
-	
-	public List<Chat> findAllChat() {
-		return chatItemDao.findAllChat();
-	}
 
 	public List<Chat> findAllMyChatItem(String s_userid, String r_userid) {
 		return chatItemDao.findAllMyChatItem(s_userid, r_userid);

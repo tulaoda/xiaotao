@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.xt.entity.Chat;
-import com.xt.entity.User;
 import com.xt.entity.Wannas;
 
 @Repository
@@ -18,11 +17,6 @@ public class ChatItemDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-	
-	public List<Chat> findAllChat() {
-		String hql = "from Chat";
-		return sessionFactory.getCurrentSession().createQuery(hql).list();
-	}
 
 	public List<Chat> findAllMyChatItem(String s_userid, String r_userid) {
 		String hql = "from Chat c where (c.s_userid=? and c.r_userid =?) or (c.s_userid=? and c.r_userid =?) order by c.createTime";

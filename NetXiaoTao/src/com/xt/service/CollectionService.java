@@ -35,9 +35,6 @@ public class CollectionService {
 		return collectionDao.findCollectionById(id);
 	}
 	
-	public Collection findCollectionByGoodsId(Long goodsid ){
-		return collectionDao.findCollectionByGoodsId(goodsid);
-	}
 	public boolean removeCollection(Collection c){
 		collectionDao.removeCollection(c);
 		return true;

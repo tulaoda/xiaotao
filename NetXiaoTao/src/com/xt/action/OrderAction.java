@@ -189,42 +189,18 @@ public class OrderAction extends BaseAction{
 				Goods g=goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId()));
 				g.setStock(g.getStock()-om.getCount());
 				goodsItemService.updateGoodsItem(g);
-				user.setBalance(userService.findUserByUserid(user.getUserid()).getBalance()-om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice()-goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPostage());
+				user.setBalance(userService.findUserByUserid(user.getUserid()).getBalance()-om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice());
 				userService.modifyBalance(user);
-				User u=userService.findUserByUserid(goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getP().getUserid());
-				if(u!=null){
-			    u.setBalance(u.getBalance()+om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getCommission()*0.01);
+			    User u=userService.findUserByUserid(goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getUserid());
+			    u.setBalance(u.getBalance()+om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice());
 				userService.modifyBalance(u);
+				allprice+=om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice();
 				Bill bill=new Bill();
-				bill.setPrice(om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getCommission()*0.01);
+				bill.setPrice(allprice);
 				bill.setState((long) 0);
 				bill.setCreatetime(new Timestamp(System.currentTimeMillis()));
 				bill.setUserid(u.getUserid());
 				userService.addBill(bill);
-				u=userService.findUserByUserid(goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getUserid());
-			    u.setBalance(u.getBalance()+om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice()*(1-goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getCommission()*0.01)+goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPostage());
-				userService.modifyBalance(u);
-				allprice+=om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice()+goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPostage();
-				bill=new Bill();
-				bill.setPrice(om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice()*(1-goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getCommission()*0.01)+goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPostage());
-				bill.setState((long) 0);
-				bill.setCreatetime(new Timestamp(System.currentTimeMillis()));
-				bill.setUserid(u.getUserid());
-				userService.addBill(bill);
-				
-				}else{
-					u=userService.findUserByUserid(goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getUserid());
-				    u.setBalance(u.getBalance()+om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice()+goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPostage());
-					userService.modifyBalance(u);
-					allprice+=om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice()+goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPostage();
-					Bill bill=new Bill();
-					bill.setPrice(om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice()+goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPostage());
-					bill.setState((long) 0);
-					bill.setCreatetime(new Timestamp(System.currentTimeMillis()));
-					bill.setUserid(u.getUserid());
-					userService.addBill(bill);
-					
-				}
 				}
 				orderItemService.updateOrderItemState(om);
 				
@@ -318,26 +294,6 @@ public class OrderAction extends BaseAction{
 	})
 	public String findAllMyOrderByOMID(){
 		data=orderItemService.findAllMyOrderByOMID(orderMessage.getId());
-		if(data!=null){
-			Iterator it=data.iterator();
-			while(it.hasNext()){
-			Object[]obj=(Object[])it.next();
-			orders.add((Order) obj[0]);
-			goods.add((Goods) obj[1]);
-			users.add((User) obj[2]);
-			ordermessages.add((OrderMessage) obj[3]);
-			}
-			code="1";
-		}else{
-			code="0";
-		}
-		return SUCCESS;
-	}
-	@Action(value="findAllOrder",results={
-			@Result(name="success",type="json")
-	})
-	public String findAllOrder(){
-		data=orderItemService.findAllOrderForPage(pageSize, page);
 		if(data!=null){
 			Iterator it=data.iterator();
 			while(it.hasNext()){

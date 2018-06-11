@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity  
@@ -23,28 +21,19 @@ public class Proxy {
   @Column(name = "userid", length = 45)
   private String userid;
   
+  @Column(name = "state", length = 11)
+  private Long state;
+
   public Proxy() {
 	super();
 }
 
-  @OneToOne
-  @JoinColumn(name="gid",insertable=false,updatable=false)
-  private Goods goods;
-  
-public Goods getGoods() {
-	return goods;
-}
-
-public void setGoods(Goods goods) {
-	this.goods = goods;
-}
-
-public Proxy(Long id, Long goodsid, String userid) {
+public Proxy(Long id, Long goodsid, String userid, Long state) {
 	super();
 	this.id = id;
 	this.goodsid = goodsid;
 	this.userid = userid;
-
+	this.state = state;
 }
 
 public Long getId() {
@@ -71,4 +60,11 @@ public Long getId() {
     this.userid = userid;
   }
 
+  public Long getState() {
+    return state;
+  }
+
+  public void setState(Long state) {
+    this.state = state;
+  }
 }
