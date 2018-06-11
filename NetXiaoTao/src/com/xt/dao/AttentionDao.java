@@ -25,7 +25,7 @@ public class AttentionDao {
 	}
 	
 	public Attention findAttentionByTwoId(String a_userid,String t_userid){
-		String hql="from Attention where a_userid=? and String t_userid";
+		String hql="from Attention where a_userid=? and t_userid=?";
 		return (Attention) sessionFactory.getCurrentSession().createQuery(hql).setString(0, a_userid).setString(1, t_userid).uniqueResult();
 	}
 	public void updateAttentionState(Attention a){
@@ -33,15 +33,23 @@ public class AttentionDao {
 	}
 	
 
-	public List<Object> findAllMyAttentionForPage(String t_userid,int pageSize,int page){
-		String hql="from Attention a,User u where a.t_userid=? and a.a_userid=u.userid and state=1";
+	public List<Object> findAllMyAttentionForPage(String a_userid,int pageSize,int page){
+		String hql="from Attention a,User u where a.a_userid=? and a.a_userid=u.userid and state=1";
+		return	sessionFactory.getCurrentSession().createQuery(hql)
+		.setString(0, a_userid)
+		.setFirstResult((page-1)*pageSize)
+		.setMaxResults(pageSize).list(); 
+		
+	}
+	
+	public List<Object> findAllOfMyAttentionForPage(String t_userid,int pageSize,int page){
+		String hql="from Attention a,User u where a.t_userid=? and a.t_userid=u.userid and state=1";
 		return	sessionFactory.getCurrentSession().createQuery(hql)
 		.setString(0, t_userid)
 		.setFirstResult((page-1)*pageSize)
 		.setMaxResults(pageSize).list(); 
 		
 	}
-	
 	public void addNewAttention(Attention a){
 		sessionFactory.getCurrentSession().save(a);
 	}

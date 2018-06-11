@@ -24,10 +24,13 @@ public class AttentionService {
 	@Autowired
 	private AttentionDao attentionDao;
 
-	public List<Object> findAllMyAttentionForPage(String t_userid,int pageSize,int page){
-		return attentionDao.findAllMyAttentionForPage(t_userid,pageSize,page);
+	public List<Object> findAllMyAttentionForPage(String a_userid,int pageSize,int page){
+		return attentionDao.findAllMyAttentionForPage(a_userid,pageSize,page);
 	}
 	
+	public List<Object> findAllOfMyAttentionForPage(String t_userid,int pageSize,int page){
+		return attentionDao.findAllOfMyAttentionForPage(t_userid,pageSize,page);
+	}
 	
 	public Attention findAttentionById(Long id){
 		return attentionDao.findAttentionById(id);

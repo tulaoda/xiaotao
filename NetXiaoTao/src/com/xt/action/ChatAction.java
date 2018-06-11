@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,6 +44,35 @@ public class ChatAction extends BaseAction {
 
 	@Autowired
 	private UserService userService;
+	@Action(value = "findAllChat", results = { @Result(name = "success", type = "json") })
+	public String findAllChat() {
+		data = chatItemService.findAllChat();
+		if (data != null) {
+			List<User> s_user=new ArrayList<User>();
+			List<User> r_user=new ArrayList<User>();
+			for(Chat c:data){
+				s_user.add(userService.findUserByUserid(c.getS_userid()));
+				r_user.add(userService.findUserByUserid(c.getR_userid()));
+			}
+			s_user.addAll(r_user);
+			HashSet<String> hashSet = new HashSet<String>();
+			r_user=new ArrayList<User>();
+			for(User u:s_user){
+			if (hashSet.add(u.getUserid()))
+			{
+			r_user.add(u);
+			}
+			}
+			s_user.clear();
+			s_user.addAll(r_user);
+			users=s_user;
+			code = "1";
+		} else {
+			code = "0";
+		}
+		return SUCCESS;
+	}
+
 	@Action(value = "findAllMyChatItem", results = { @Result(name = "success", type = "json") })
 	public String findAllMyChatItem() {
 		data = chatItemService.findAllMyChatItem(s_userid, r_userid);

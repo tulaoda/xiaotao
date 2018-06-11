@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 
 import com.xt.base.BaseAction;
 import com.xt.entity.Goods;
+import com.xt.entity.Proxy;
 import com.xt.entity.User;
 import com.xt.entity.Wannas;
 import com.xt.service.GoodsItemService;
@@ -35,12 +36,14 @@ public class GoodsAction extends BaseAction {
 	private int page;
 	public Goods goodsItem;
 	private Long state;
+	private User user;
+	private Long proxy;
 	@Autowired
 	private GoodsItemService goodsItemService;
 	private List<Object> datas;
 	private List<User> users = new ArrayList<User>();
 	private List<Goods> goods = new ArrayList<Goods>();
-
+    private List<Proxy> ps = new ArrayList<Proxy>();
 	@Action(value = "findAllGoodsItem", results = { @Result(name = "success", type = "json") })
 	public String findAllGoodsItem() {
 		data = goodsItemService.findGoodsItemForPage(pageSize, page);
@@ -166,7 +169,57 @@ public class GoodsAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
+	@Action(value="addNewProxy",results={
+			@Result(name="success",type="json")
+	})
+	public String addNewProxy(){
+		goodsItem=goodsItemService.findGoodsItemById(goodsItem.getId());
+		Proxy p=new Proxy();
+		p.setGoodsid(goodsItem.getId());
+		p.setUserid(user.getUserid());
+		goodsItem.setP(p);
+		goodsItem.setProxy((long) 2);
+		boolean flag=goodsItemService.addNewProxy(goodsItem);
+		if(flag){
+			code="1";
+			ps.add(goodsItemService.findMaxIdProxy());
+		}else{
+			code="0";
+		}
+		return SUCCESS;
+	}
+	@Action(value="removeProxy",results={
+			@Result(name="success",type="json")
+	})
+	public String removeProxy(){
+		goodsItem=goodsItemService.findGoodsItemById(goodsItem.getId());
+		goodsItem.setProxy((long) 1);
+		goodsItemService.updateGoodsItem(goodsItem);
+		boolean flag=goodsItemService.removeProxy(goodsItem.getP());
+		if(flag){
+			code="1";
+			ps.add(goodsItemService.findMaxIdProxy());
+		}else{
+			code="0";
+		}
+		return SUCCESS;
+	}
 
+	@Action(value = "findGoodsItemByProxyUseridForPage", results = { @Result(name = "success", type = "json") })
+	public String findGoodsItemByProxyUseridForPage() {
+		if(proxy==1){
+		goods=goodsItemService.findGoodsItemByProxyForPage(proxy,pageSize, page);
+		}else{
+		goods = goodsItemService.findGoodsItemByProxyUseridForPage(
+				user.getUserid(),proxy,pageSize, page);
+		}
+		if (goods != null) {
+			code = "1";
+		} else {
+			code = "0";
+		}
+		return SUCCESS;
+	}
 	/*
 	 * @Action(value = "addFileAction",params={"savePath","/upload"},
 	 * interceptorRefs
@@ -280,6 +333,30 @@ public class GoodsAction extends BaseAction {
 
 	public void setState(Long state) {
 		this.state = state;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<Proxy> getPs() {
+		return ps;
+	}
+
+	public void setPs(List<Proxy> ps) {
+		this.ps = ps;
+	}
+
+	public Long getProxy() {
+		return proxy;
+	}
+
+	public void setProxy(Long proxy) {
+		this.proxy = proxy;
 	}
 
 }

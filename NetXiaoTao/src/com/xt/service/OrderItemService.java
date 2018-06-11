@@ -27,6 +27,10 @@ public class OrderItemService {
 		return orderItemDao.findAllMyOrderForPage(userid,pageSize,page);
 
 	}
+	public List<Object> findAllOrderForPage(int pageSize,int page) {
+		return orderItemDao.findAllOrderForPage(pageSize,page);
+
+	}
 	public List<Object> findAllMyOrderByStateForPage(String userid,Long state,int pageSize,int page) {
 		return orderItemDao.findAllMyOrderByStateForPage(userid,state,pageSize,page);
 

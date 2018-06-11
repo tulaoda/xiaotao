@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.xt.dao.GoodsItemDao;
 import com.xt.entity.Goods;
 import com.xt.entity.GoodsImg;
+import com.xt.entity.Proxy;
 
 @Transactional
 @Service
@@ -92,6 +93,15 @@ public class GoodsItemService {
 				if (goodsItemDao.findMaxIdGoodsItem() == null) {
 					goods.setId((long) 1);
 				}
+				if (goods.getPostage() == null) {
+					goods.setPostage((long) 0);
+				}
+				if (goods.getProxy() == null) {
+					goods.setProxy((long) 0);
+				}
+				if (goods.getCommission() == null) {
+					goods.setCommission((long) 0);
+				}
 				goods.setState((long) 1);
 				goods.setId(goodsItemDao.findMaxIdGoodsItem().getId() + 1);
 				goods.setGoodsImg(GoodsImgs);
@@ -104,5 +114,26 @@ public class GoodsItemService {
 	public Goods findMaxIdGoodsItem() {
 		return goodsItemDao.findMaxIdGoodsItem();
 	}
-
+	
+	public boolean addNewProxy(Goods goods) {
+		goodsItemDao.addNewProxy(goods);
+		return true;
+	}
+	
+	public boolean removeProxy(Proxy proxy) {
+		goodsItemDao.removeProxy(proxy);
+		return true;
+	}
+	public Proxy findMaxIdProxy(){
+		return goodsItemDao.findMaxIdProxy();
+	}
+	
+	public List<Goods> findGoodsItemByProxyUseridForPage(String userid,
+			Long proxy,int pageSize, int page) {
+		return goodsItemDao.findGoodsItemByProxyUseridForPage(userid, proxy, pageSize, page);
+	}
+	public List<Goods> findGoodsItemByProxyForPage(
+			Long proxy,int pageSize, int page) {
+		return goodsItemDao.findGoodsItemByProxyForPage(proxy, pageSize, page);
+	}
 }
