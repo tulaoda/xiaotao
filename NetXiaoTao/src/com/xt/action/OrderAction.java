@@ -191,7 +191,10 @@ public class OrderAction extends BaseAction{
 				goodsItemService.updateGoodsItem(g);
 				user.setBalance(userService.findUserByUserid(user.getUserid()).getBalance()-om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice()-goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPostage());
 				userService.modifyBalance(user);
-				User u=userService.findUserByUserid(goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getP().getUserid());
+				User u=null;
+				if(goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getP()!=null){
+					u=userService.findUserByUserid(goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getP().getUserid());
+				}
 				if(u!=null){
 			    u.setBalance(u.getBalance()+om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getCommission()*0.01);
 				userService.modifyBalance(u);
@@ -225,8 +228,9 @@ public class OrderAction extends BaseAction{
 					userService.addBill(bill);
 					
 				}
-				}
 				orderItemService.updateOrderItemState(om);
+				}
+				
 				
 			}
 			Bill b=new Bill();
@@ -239,10 +243,12 @@ public class OrderAction extends BaseAction{
 		    if(state==2){
 			om.setState(state);
 			om.setExpressnumber(expressnumber);
+			 orderItemService.updateOrderItemState(om);
 		    }else if(state>2){
 				om.setState(state);
+				 orderItemService.updateOrderItemState(om);
 			}
-		    orderItemService.updateOrderItemState(om);
+		   
 			}
 			code="1";
 		}else{
