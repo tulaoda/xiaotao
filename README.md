@@ -96,7 +96,7 @@ http://localhost:8080/NetXiaoTao/goods/findGoodsItemByProxyUseridForPage?user.us
 
 选择代理商品
 http://localhost:8080/NetXiaoTao/goods/findGoodsItemByProxyUseridForPage?proxy=1&pageSize=10,page=1
-
+0 代付款 1 已付款/代发货 2 发货 3 收货 4 申请退货 5退货
 
 
 

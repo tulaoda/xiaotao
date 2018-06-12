@@ -233,12 +233,14 @@ public class OrderAction extends BaseAction{
 				
 				
 			}
+			if(state==1){
 			Bill b=new Bill();
 			b.setCreatetime(new Timestamp(System.currentTimeMillis()));
 			b.setPrice(-allprice);
 			b.setState((long) 1);
 			b.setUserid(user.getUserid());
 			userService.addBill(b);
+			}
 			for(OrderMessage om:list){
 		    if(state==2){
 			om.setState(state);
