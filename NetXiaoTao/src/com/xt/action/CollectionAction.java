@@ -77,7 +77,7 @@ public class CollectionAction extends BaseAction{
 			@Result(name="success",type="json")
 	})
 	public String removeCollection(){
-		collection=collectionService.findCollectionByGoodsId(goodsItem.getId());
+//		collection=collectionService.findCollectionByGoodsIdAndUserid(goodsItem.getId(),user.getUserid());
 		boolean flag=collectionService.removeCollection(collection);
 		if(flag){
 			code="1";
@@ -164,6 +164,14 @@ public class CollectionAction extends BaseAction{
 
 	public void setGoodsItem(Goods goodsItem) {
 		this.goodsItem = goodsItem;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	/*@Action(value = "addFileAction",params={"savePath","/upload"},

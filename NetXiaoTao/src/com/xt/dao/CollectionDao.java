@@ -29,9 +29,9 @@ public class CollectionDao {
 		return (Collection) sessionFactory.getCurrentSession().createQuery(hql).setLong(0, id).uniqueResult();
 	}
 	
-	public Collection findCollectionByGoodsId(Long goodsid){
-		String hql="from Collection where goodsid=?";
-		return (Collection) sessionFactory.getCurrentSession().createQuery(hql).setLong(0, goodsid).uniqueResult();
+	public Collection findCollectionByGoodsIdAndUserid(Long goodsid,String userid){
+		String hql="from Collection where goodsid=? and userid=?";
+		return (Collection) sessionFactory.getCurrentSession().createQuery(hql).setLong(0, goodsid).setString(1, userid).uniqueResult();
 	}
 	public void removeCollection(Collection c){
 		sessionFactory.getCurrentSession().delete(c);

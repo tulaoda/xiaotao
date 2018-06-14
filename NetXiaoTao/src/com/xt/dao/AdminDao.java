@@ -59,7 +59,7 @@ public class AdminDao {
 	
 	public List<User> findAllUser(int pageSize,int page){
 		return (List<User>)sessionFactory.getCurrentSession()
-		.createQuery("from Admin").setFirstResult((page-1)*pageSize)
+		.createQuery("from User").setFirstResult((page-1)*pageSize)
 		.setMaxResults(pageSize).list();	
 	}
 }
