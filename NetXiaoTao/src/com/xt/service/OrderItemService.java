@@ -57,4 +57,8 @@ public class OrderItemService {
 	public List<OrderMessage> findOrderMessageByOrderidAndGoodsid(Long orderid,String goodsid){
 		return orderItemDao.findOrderMessageByOrderidAndGoodsid(orderid,goodsid);
 	}
+	
+	public Order findOrderItemByOrderMessgae(Long orderid){
+		return orderItemDao.findOrderItemByOrderMessgae(orderid);
+	}
 }

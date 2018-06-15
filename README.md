@@ -98,5 +98,6 @@ http://localhost:8080/NetXiaoTao/goods/findGoodsItemByProxyUseridForPage?user.us
 http://localhost:8080/NetXiaoTao/goods/findGoodsItemByProxyUseridForPage?proxy=1&pageSize=10,page=1
 0 代付款 1 已付款/代发货 2 发货 3 收货 4 申请退货 5退货
 
-
+管理员查询所有订单
+http://localhost:8080/NetXiaoTao/order/findAllOrder
 

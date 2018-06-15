@@ -180,10 +180,10 @@ public class OrderAction extends BaseAction{
 			}
 			}
 		}
+		if(state==1){
 		if(flag1){
 			double allprice=0.0;
 			for(OrderMessage om:list){
-				if(state==1){
 				om.setState(state);
 				om.setPay_time(new Timestamp(System.currentTimeMillis()));
 				Goods g=goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId()));
@@ -230,33 +230,89 @@ public class OrderAction extends BaseAction{
 				}
 				orderItemService.updateOrderItemState(om);
 				}
-				
-				
-			}
-			if(state==1){
+	
 			Bill b=new Bill();
 			b.setCreatetime(new Timestamp(System.currentTimeMillis()));
 			b.setPrice(-allprice);
 			b.setState((long) 1);
 			b.setUserid(user.getUserid());
 			userService.addBill(b);
-			}
+			code="1";
+		}	
+		code="0";
+		}else{
+			if(state==2){
 			for(OrderMessage om:list){
-		    if(state==2){
-			om.setState(state);
-			om.setExpressnumber(expressnumber);
-			 orderItemService.updateOrderItemState(om);
-		    }else if(state>2){
 				om.setState(state);
+				om.setExpressnumber(expressnumber);
 				 orderItemService.updateOrderItemState(om);
-			}
-		   
+				 
 			}
 			code="1";
-		}else{
-			code="0";
-		}
+			    }else if(state>2&&state<5){
+			    	for(OrderMessage om:list){
+					om.setState(state);
+					 orderItemService.updateOrderItemState(om);
+			    	}
+			    	code="1";
+				}else if(state==5){
+					for(OrderMessage om:list){
+						om.setState(state);
+						Goods g=goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId()));
+						g.setStock(g.getStock()+om.getCount());
+						goodsItemService.updateGoodsItem(g);
+						user=userService.findUserByUserid(orderItemService.findOrderItemByOrderMessgae(om.getOrderId()).getUserid());
+						user.setBalance(userService.findUserByUserid(orderItemService.findOrderItemByOrderMessgae(om.getOrderId()).getUserid()).getBalance()+om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice());
+						userService.modifyBalance(user);
+						User u=null;
+						if(goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getP()!=null){
+							u=userService.findUserByUserid(goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getP().getUserid());
+						}
+						if(u!=null){
+					    u.setBalance(u.getBalance()-om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getCommission()*0.01);
+						userService.modifyBalance(u);
+						Bill bill=new Bill();
+						bill.setPrice(-om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getCommission()*0.01);
+						bill.setState((long) 1);
+						bill.setCreatetime(new Timestamp(System.currentTimeMillis()));
+						bill.setUserid(u.getUserid());
+						userService.addBill(bill);
+						u=userService.findUserByUserid(goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getUserid());
+					    u.setBalance(u.getBalance()-om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice()*(1-goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getCommission()*0.01));
+						userService.modifyBalance(u);
+						bill=new Bill();
+						bill.setPrice(om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice()*(1-goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getCommission()*0.01));
+						bill.setState((long) 1);
+						bill.setCreatetime(new Timestamp(System.currentTimeMillis()));
+						bill.setUserid(u.getUserid());
+						userService.addBill(bill);
+						
+						}else{
+							u=userService.findUserByUserid(goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getUserid());
+						    u.setBalance(u.getBalance()-om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice());
+							userService.modifyBalance(u);
+							Bill bill=new Bill();
+							bill.setPrice(-om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice());
+							bill.setState((long) 1);
+							bill.setCreatetime(new Timestamp(System.currentTimeMillis()));
+							bill.setUserid(orderItemService.findOrderItemByOrderMessgae(om.getOrderId()).getUserid());
+							userService.addBill(bill);
+							
+						}
+						orderItemService.updateOrderItemState(om);
+						Bill b=new Bill();
+						b.setCreatetime(new Timestamp(System.currentTimeMillis()));
+						b.setPrice(om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice());
+						b.setState((long) 0);
+						b.setUserid(user.getUserid());
+						userService.addBill(b);
+						}
 			
+					
+					code="1";
+				}
+		}
+		
 		return SUCCESS;
 	}
 	

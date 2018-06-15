@@ -89,4 +89,11 @@ public class OrderItemDao {
 		orderMessage.add((OrderMessage)query.setLong(0, orderid).setString(1, goodsid).uniqueResult());
 		return orderMessage;
 	}
+	
+	public Order findOrderItemByOrderMessgae(Long orderid){
+		String hql = "from Order o where o.id=? ";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql).setLong(0, orderid);
+		Order orderItem=(Order) query.uniqueResult();
+		return orderItem;
+	}
 }
