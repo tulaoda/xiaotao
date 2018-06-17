@@ -47,16 +47,10 @@ public class UserDao {
 		return query.executeUpdate();
 	}
 
-	public int modifyUserBaseInfo(User user) {
-		String hql = "update User u set u.nickname =? u.school=? u.photo=? where userid=?";
-		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		query.setString(0, user.getNickname());
-		query.setString(1, user.getSchool());
-		query.setString(2, user.getPhoto());
-		query.setString(3, user.getUserid());
-		return query.executeUpdate();
+	public void modifyUserBaseInfo(User user){
+		sessionFactory.getCurrentSession().update(user);
 	}
-
+	
 	public boolean exits(User user) {
 		User u = (User) sessionFactory.getCurrentSession()
 				.createQuery("from User where nickname=? ")

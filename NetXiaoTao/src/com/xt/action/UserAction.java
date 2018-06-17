@@ -125,7 +125,11 @@ public class UserAction extends BaseAction {
 
 	@Action(value = "modifyUserBaseInfo", results = { @Result(name = "success", type = "json") })
 	public String modifyUserBaseInfo() {
-		if (userService.modifyUserBaseInfo(user)) {
+		User u=userService.findUserByUserid(user.getUserid());
+		u.setNickname(user.getNickname());
+		u.setPasswd(user.getPasswd());
+		u.setSchool(user.getSchool());
+		if (userService.modifyUserBaseInfo(u)) {
 			code = "1";
 		} else {
 			code = "0";

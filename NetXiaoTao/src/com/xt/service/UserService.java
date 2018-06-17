@@ -51,7 +51,8 @@ public class UserService {
 	}
 	
 	public boolean modifyUserBaseInfo(User user) {
-		return userDao.modifyUserBaseInfo(user) > 0 ? true : false;
+		userDao.modifyUserBaseInfo(user) ;
+		return  true;
 	}
 	public User findUserByUserid(String userid){
 		return userDao.findUserByUserid(userid);
