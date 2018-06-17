@@ -60,10 +60,10 @@ public class ShopcartItemDao {
 		return cartdet;
 	}
 	
-	public Shopcart findShopcartByGoodsId(String goodsId){
-		String hql = "from Shopcart sc where sc.c.goodsid=? ";
+	public Shopcart findShopcartByGoodsIdAndUserid(String goodsId,String userid){
+		String hql = "from Shopcart sc where sc.c.goodsid=? and sc.userid=?";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		Shopcart shopcart=(Shopcart) query.setString(0, goodsId).uniqueResult();
+		Shopcart shopcart=(Shopcart) query.setString(0, goodsId).setString(1, userid).uniqueResult();
 		return shopcart;
 	}
 	public void removeCartdet(Cartdet c){
