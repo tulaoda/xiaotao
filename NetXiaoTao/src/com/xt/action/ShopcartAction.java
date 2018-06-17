@@ -95,25 +95,15 @@ public class ShopcartAction extends BaseAction{
 		}
 		return SUCCESS;
 	}
-	@Action(value="removeGoodsItem",results={
-			@Result(name="success",type="json")
-	})
-	public String removeGoodsItem(){
-		boolean flag=goodsItemService.removeGoodsItem(goodsItem);
-		if(flag){
-			code="1";
-		}else{
-			code="0";
-		}
-		return SUCCESS;
-	}
+	
 	*/
 	@Action(value="addNewShopcartItem",results={
 			@Result(name="success",type="json")
 	})
 	public String addNewShopcartItem(){
-		Cartdet cc=shopcartItemService.findCartdetByGoodsId(shopcartItem.getC().getGoodsid().toString() );
-		if(cc==null){
+		Shopcart SC=shopcartItemService.findShopcartByGoodsIdAndUserid(shopcartItem.getC().getGoodsid().toString(),shopcartItem.getUserid());
+		//Cartdet cc=shopcartItemService.findCartdetByGoodsId(shopcartItem.getC().getGoodsid().toString() );
+		if(SC==null){
 		boolean flag=shopcartItemService.addNewShopcartItem(shopcartItem);
 		if(flag){
 			code="1";
@@ -123,8 +113,8 @@ public class ShopcartAction extends BaseAction{
 			code="0";
 		}
 		}else{
-			cc.setNum(cc.getNum()+shopcartItem.getC().getNum());
-			boolean flag=shopcartItemService.updateCartdet(cc);
+			SC.getC().setNum(SC.getC().getNum()+shopcartItem.getC().getNum());
+			boolean flag=shopcartItemService.updateCartdet(SC.getC());
 			if(flag){
 				code="1";
 				data=new ArrayList<>();
@@ -135,7 +125,18 @@ public class ShopcartAction extends BaseAction{
 		}
 		return SUCCESS;
 	}
-
+	@Action(value="removeShopcartItem",results={
+			@Result(name="success",type="json")
+	})
+	public String removeShopcartItem(){
+		boolean flag=shopcartItemService.removeShopcartItem(shopcartItemService.findShopcartByGoodsIdAndUserid(String.valueOf(goodsItem.getId()),user.getUserid()));
+		if(flag){
+			code="1";
+		}else{
+			code="0";
+		}
+		return SUCCESS;
+	}
 	/*@Action(value = "addFileAction",params={"savePath","/upload"},
 			interceptorRefs={@InterceptorRef(value="fileUpload",params={"allowedTypes","image/pjpeg, image/gif,image/x-png","maximumSize","1024000000"}),
 			@InterceptorRef("defaultStack")},results={

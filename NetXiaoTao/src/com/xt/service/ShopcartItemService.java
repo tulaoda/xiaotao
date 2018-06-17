@@ -67,8 +67,8 @@ public class ShopcartItemService {
 		return shopcartItemDao.findCartdetByGoodsId(goodsId);
 	}
 	
-	public Shopcart findShopcartByGoodsId(String goodsId){
-		return shopcartItemDao.findShopcartByGoodsId(goodsId);
+	public Shopcart findShopcartByGoodsIdAndUserid(String goodsId,String userid){
+		return shopcartItemDao.findShopcartByGoodsIdAndUserid(goodsId,userid);
 	}
 	
 	public boolean removeCartdet(Cartdet c){
