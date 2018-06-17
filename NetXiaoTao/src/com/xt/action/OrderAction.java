@@ -295,7 +295,7 @@ public class OrderAction extends BaseAction{
 							bill.setPrice(-om.getCount()*goodsItemService.findGoodsItemById(Long.parseLong(om.getGoodsId())).getPrice());
 							bill.setState((long) 1);
 							bill.setCreatetime(new Timestamp(System.currentTimeMillis()));
-							bill.setUserid(orderItemService.findOrderItemByOrderMessgae(om.getOrderId()).getUserid());
+							bill.setUserid(u.getUserid());
 							userService.addBill(bill);
 							
 						}
