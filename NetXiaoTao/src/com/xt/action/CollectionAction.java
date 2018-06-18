@@ -77,7 +77,7 @@ public class CollectionAction extends BaseAction{
 			@Result(name="success",type="json")
 	})
 	public String removeCollection(){
-//		collection=collectionService.findCollectionByGoodsIdAndUserid(goodsItem.getId(),user.getUserid());
+		collection=collectionService.findCollectionByGoodsIdAndUserid(goodsItem.getId(),user.getUserid());
 		boolean flag=collectionService.removeCollection(collection);
 		if(flag){
 			code="1";
